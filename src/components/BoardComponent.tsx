@@ -1,7 +1,8 @@
 import styled from 'styled-components'
-import CellComponent from './CellComponent'
 import { Board } from '../models/Board'
-import React, { FC } from 'react'
+import { FC } from 'react'
+import { Cell } from '../models/Cell'
+import CellComponent from './CellComponent'
 
 interface BoardProps {
     board: Board
@@ -10,15 +11,21 @@ interface BoardProps {
 
 const BoardComponent: FC<BoardProps> = ({board, setBoard}) => {
     return(
-        <Wrapper>
+        <BoardWrapper>
             {board.cells.map((row, index) => {
-                return <></>
+                return (<div key={index}>
+                    {row.map((cell: Cell): any => {
+                        return(
+                            <CellComponent cell={cell} key={cell.id} />
+                        )
+                    })}
+                </div>)
             })}
-        </Wrapper>
+        </BoardWrapper>
     )
 }
 
-const Wrapper = styled.div`
+const BoardWrapper = styled.div`
     margin: 20px;
     display: flex;
     border: 2px solid;

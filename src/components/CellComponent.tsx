@@ -1,14 +1,22 @@
 import styled from 'styled-components'
+import { Cell } from '../models/Cell'
+import { FC } from 'react'
+import { Figure } from '../models/Figures/Figure'
 
-const CellComponent = (props: any) => {
+interface CellProps {
+    cell: Cell
+}
+
+const CellComponent: FC<CellProps> = ({cell}) => {
+    console.log(cell)
     return(
-        <Cell style={{backgroundColor: props.color}}>
-
-        </Cell>
+        <CellWrapper style={{backgroundColor: cell.color}}>
+            <img src={cell.figure?.logo} /> 
+        </CellWrapper>
     )
 }
 
-const Cell = styled.div`
+const CellWrapper = styled.div`
     width: 100px;
     height: 100px;
 `
