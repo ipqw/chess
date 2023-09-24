@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Board } from '../models/Board'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Cell } from '../models/Cell'
 import CellComponent from './CellComponent'
 
@@ -10,13 +10,18 @@ interface BoardProps {
 }
 
 const BoardComponent: FC<BoardProps> = ({board, setBoard}) => {
+    const [selectedCell, setSelectedCell] = useState<Cell | null>(null)
+
+    const click = (cell: Cell) => {
+        cell.figure ? setSelectedCell(cell) : ''
+    }
     return(
         <BoardWrapper>
             {board.cells.map((row, index) => {
                 return (<div key={index}>
                     {row.map((cell: Cell): any => {
                         return(
-                            <CellComponent cell={cell} key={cell.id} />
+                            <CellComponent click={click} selected={cell.x === selectedCell?.x && cell.y === selectedCell?.y } cell={cell} key={cell.id} />
                         )
                     })}
                 </div>)
