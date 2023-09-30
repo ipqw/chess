@@ -1,16 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import './App.css'
 import BoardComponent from './components/BoardComponent'
 import styled from 'styled-components'
-import { Board } from './models/Board'
+import { observer } from 'mobx-react'
+import { store } from './store'
 
-const App = () => {
-  const [board, setBoard] = useState(new Board())
+const App = observer(() => {
   const restart = () => {
-    const newBoard = new Board()
-    newBoard.initCells()
-    newBoard.addFigures()
-    setBoard(newBoard)
+    store.restartBoard()
   }
   
   useEffect(() => {
@@ -18,10 +15,10 @@ const App = () => {
   }, [])
   return (
     <Wrapper>
-       <BoardComponent board={board} setBoard={setBoard}/>
+       <BoardComponent />
     </Wrapper>
   )
-}
+})
 
 export default App
 

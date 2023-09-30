@@ -1,34 +1,38 @@
 import styled from 'styled-components'
-import { Board } from '../models/Board'
-import { FC, useState } from 'react'
-import { Cell } from '../models/Cell'
+import { FC } from 'react'
 import CellComponent from './CellComponent'
+import { Cell } from '../models/Cell'
+import { store } from '../store'
+import { observer } from 'mobx-react'
 
-interface BoardProps {
-    board: Board
-    setBoard: (board: Board) => void
-}
-
-const BoardComponent: FC<BoardProps> = ({board, setBoard}) => {
-    const [selectedCell, setSelectedCell] = useState<Cell | null>(null)
+const BoardComponent: FC = observer(() => {
 
     const click = (cell: Cell) => {
-        cell.figure ? setSelectedCell(cell) : ''
+        if(store.selectedCell !== null && store.selectedCell.figure?.color === store.turn){
+            store.selectedCell.moveFigure(cell)
+        }
+        else{   
+            cell.figure ? store.setSelectedCell(cell) : ''
+            store.selectedCell?.figure?.getAvalibleCells().map((cell: Cell) => {
+                cell.figure === null ? cell.available = true : cell.available = false
+            })
+            store.resetAvalibleCells()
+        }
     }
     return(
         <BoardWrapper>
-            {board.cells.map((row, index) => {
+            {store.board?.cells.map((row, index) => {
                 return (<div key={index}>
                     {row.map((cell: Cell): any => {
                         return(
-                            <CellComponent click={click} selected={cell.x === selectedCell?.x && cell.y === selectedCell?.y } cell={cell} key={cell.id} />
+                            <CellComponent click={click} selected={cell.x === store.selectedCell?.x && cell.y === store.selectedCell?.y } cell={cell} key={cell.id} />
                         )
                     })}
                 </div>)
             })}
         </BoardWrapper>
     )
-}
+})
 
 const BoardWrapper = styled.div`
     margin: 20px;
