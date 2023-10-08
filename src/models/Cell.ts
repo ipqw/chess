@@ -1,6 +1,7 @@
+import { store } from "../store"
 import { Board } from "./Board"
 import { Colors } from "./Colors"
-import { Figure } from "./Figures/Figure"
+import { Figure, FigureNames } from "./Figures/Figure"
 
 export class Cell{
     readonly x: number 
@@ -26,9 +27,18 @@ export class Cell{
 
     public moveFigure(target: Cell){
         if(this.figure?.canMove(target)){
+            store.setPreviousFigure(this.figure)
             this.figure?.moveFigure(target)
+            
+            // проверка двойного хода пешки
+            if(this.figure.name === FigureNames.PAWN){
+                this.figure.color === Colors.WHITE 
+                ? this.y - 2 === target.y ? store.setEnPassant(true) : store.setEnPassant(false)
+                : this.y + 2 === target.y ? store.setEnPassant(true) : store.setEnPassant(false)
+            }
             target.figure = this.figure
             this.figure = null
+            store.setAttackedCells(target.figure.getAvalibleCells())
         }
     }
 }

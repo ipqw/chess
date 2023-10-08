@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import { Board } from '../models/Board'
 import { Colors } from '../models/Colors'
 import { Cell } from '../models/Cell'
+import { Figure, FigureNames } from '../models/Figures/Figure'
 
 class Storage {
     constructor(){
@@ -39,6 +40,30 @@ class Storage {
         this.selectedCell?.figure?.getAvalibleCells().map((cell: Cell) => {
             cell.figure === null ? cell.available = true : cell.available = false
         })
+    }
+
+    _attackedCells: Cell[] = []
+    get attackedCells(): Cell[] {
+        return this._attackedCells
+    }
+    setAttackedCells = (cells: Cell[]) => {
+        this._attackedCells = cells
+    }
+
+    _previousFigure: Figure | null = null
+    get previousFigure(){
+        return this._previousFigure
+    }
+    setPreviousFigure = (figure: Figure) => {
+        this._previousFigure = figure
+    }
+
+    _enPassant: boolean = false
+    get enPassant(){
+        return this._enPassant
+    }
+    setEnPassant = (isEnPassant: boolean) => {
+        this._enPassant = isEnPassant
     }
 }
 

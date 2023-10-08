@@ -19,29 +19,49 @@ export class Queen extends Figure {
         let isFigureExist = false
         // проверка диагоналей
         while (x < 8 && y < 8 && !isFigureExist) {
-            store.board.getCell(y, x).figure ? isFigureExist = true :
-            availableCells.push(store.board.getCell(y, x))
+            if(store.board.getCell(y, x).figure){
+                isFigureExist = true 
+                availableCells.push(store.board.getCell(y, x))
+            }
+            else{
+                availableCells.push(store.board.getCell(y, x))
+            }
             x++; y++
         }
 
         x = this.cell.x-1; y = this.cell.y-1; isFigureExist = false
-        while (x >= 0 && y >=    0 && !isFigureExist) {
-            store.board.getCell(y, x).figure ? isFigureExist = true :
-            availableCells.push(store.board.getCell(y, x))
+        while (x >= 0 && y >= 0 && !isFigureExist) {
+            if(store.board.getCell(y, x).figure){
+                isFigureExist = true 
+                availableCells.push(store.board.getCell(y, x))
+            }
+            else{
+                availableCells.push(store.board.getCell(y, x))
+            }
             x--; y--
         }
 
         x = this.cell.x+1; y = this.cell.y-1; isFigureExist = false
         while (x < 8 && y >= 0 && !isFigureExist) {
-            store.board.getCell(y, x).figure ? isFigureExist = true :
-            availableCells.push(store.board.getCell(y, x))
+            if(store.board.getCell(y, x).figure){
+                isFigureExist = true 
+                availableCells.push(store.board.getCell(y, x))
+            }
+            else{
+                availableCells.push(store.board.getCell(y, x))
+            }
             x++; y--
         }
 
         x = this.cell.x-1; y = this.cell.y+1; isFigureExist = false
         while (x >= 0 && y < 8 && !isFigureExist) {  
-            store.board.getCell(y, x).figure ? isFigureExist = true :
-            availableCells.push(store.board.getCell(y, x))
+            if(store.board.getCell(y, x).figure){
+                isFigureExist = true 
+                availableCells.push(store.board.getCell(y, x))
+            }
+            else{
+                availableCells.push(store.board.getCell(y, x))
+            }
             x--; y++
         }
 
@@ -96,7 +116,6 @@ export class Queen extends Figure {
             }
             y--
         }
-
         return availableCells
     }
 }

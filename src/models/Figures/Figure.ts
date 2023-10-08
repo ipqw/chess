@@ -35,26 +35,23 @@ export class Figure{
     moveFigure(target: Cell){
         this.cell = target
     }
-
-    
     
     canMove(target: Cell): boolean {
         store.setSelectedCell(null)
         store.resetAvalibleCells()
-        if(!this.getAvalibleCells().includes(target)){
+        if(!this.getAvalibleCells().includes(target) || target.figure?.color === this.color || target.figure?.name === FigureNames.KING || store.turn !== this.color){
             return false
         }
-        if(target.figure?.color === this.color){
-            return false
-        }
-        if(target.figure?.name === FigureNames.KING){
-            return false
-        }
-        if(store.turn !== this.color){
-            return false
-        }
-        
+        // store.attackedCells.map((el: Cell) => {
+        //     if(el.figure?.name === FigureNames.KING && el.figure.color !== store.turn){
+        //         return false
+        //     }
+        // })
         store.turn === Colors.WHITE ? store.changeTurn() : store.changeTurn()
+        
         return true
+    }
+    deleteFigure(){
+        this.cell.figure = null
     }
 }

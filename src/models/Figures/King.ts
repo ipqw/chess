@@ -15,7 +15,6 @@ export class King extends Figure {
         const availableCells: Cell[] = []
         let x = this.cell.x
         let y = this.cell.y
-        let isFigureExist = false
 
         x-1 >= 0 ? availableCells.push(store.board.getCell(y, x-1)) : ''
         x+1 < 8 ? availableCells.push(store.board.getCell(y, x+1)) : ''
