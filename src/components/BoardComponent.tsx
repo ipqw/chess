@@ -13,11 +13,13 @@ const BoardComponent: FC = observer(() => {
         }
         else{   
             cell.figure ? store.setSelectedCell(cell) : ''
-            store.selectedCell?.figure?.getAvalibleCells().map((cell: Cell) => {
-                cell.figure === null ? cell.available = true : cell.available = false
+            store.selectedCell?.figure?.getAvalibleCells().map((cellq: Cell) => {
+                cellq.available = true
             })
+
             store.resetAvalibleCells()
         }
+
     }
     return(
         <BoardWrapper>

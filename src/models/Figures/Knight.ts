@@ -13,19 +13,19 @@ export class Knight extends Figure {
     }
     getAvalibleCells(): Cell[] {
         const availableCells: Cell[] = []
-        this.cell.y-1 > 0 && this.cell.x-2 > 0 ? availableCells.push(store.board.getCell(this.cell.y-1, this.cell.x-2)) : ''
+        this.cell.y-1 >= 0 && this.cell.x-2 >= 0 ? availableCells.push(store.board.getCell(this.cell.y-1, this.cell.x-2)) : ''
 
-        this.cell.y+1 < 8 && this.cell.x-2 > 0 ? availableCells.push(store.board.getCell(this.cell.y+1, this.cell.x-2)) : ''
+        this.cell.y+1 < 8 && this.cell.x-2 >= 0 ? availableCells.push(store.board.getCell(this.cell.y+1, this.cell.x-2)) : ''
 
-        this.cell.y-1 > 0 && this.cell.x+2 < 8 ? availableCells.push(store.board.getCell(this.cell.y-1, this.cell.x+2)) : ''
+        this.cell.y-1 >= 0 && this.cell.x+2 < 8 ? availableCells.push(store.board.getCell(this.cell.y-1, this.cell.x+2)) : ''
 
         this.cell.y+1 < 8 && this.cell.x+2 < 8 ? availableCells.push(store.board.getCell(this.cell.y+1, this.cell.x+2)) : ''
 
-        this.cell.y-2 > 0 && this.cell.x-1 > 0 ? availableCells.push(store.board.getCell(this.cell.y-2, this.cell.x-1)) : ''
+        this.cell.y-2 >= 0 && this.cell.x-1 >= 0 ? availableCells.push(store.board.getCell(this.cell.y-2, this.cell.x-1)) : ''
 
-        this.cell.y-2 > 0 && this.cell.x+1 < 8 ? availableCells.push(store.board.getCell(this.cell.y-2, this.cell.x+1)) : ''
+        this.cell.y-2 >= 0 && this.cell.x+1 < 8 ? availableCells.push(store.board.getCell(this.cell.y-2, this.cell.x+1)) : ''
 
-        this.cell.y+2 < 8 && this.cell.x-1 > 0 ? availableCells.push(store.board.getCell(this.cell.y+2, this.cell.x-1)) : ''
+        this.cell.y+2 < 8 && this.cell.x-1 >= 0 ? availableCells.push(store.board.getCell(this.cell.y+2, this.cell.x-1)) : ''
 
         this.cell.y+2 < 8 && this.cell.x+1 < 8 ? availableCells.push(store.board.getCell(this.cell.y+2, this.cell.x+1)) : ''
 

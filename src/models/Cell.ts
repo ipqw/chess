@@ -29,6 +29,19 @@ export class Cell{
         if(this.figure?.canMove(target)){
             store.setPreviousFigure(this.figure)
             this.figure?.moveFigure(target)
+
+            // взятие на проходе
+
+            if(this.figure.color === Colors.WHITE){
+                if(this.figure.name === FigureNames.PAWN && store.enPassant && !target.figure){
+                    store.board.getCell(target.y+1, target.x).figure?.deleteFigure()
+                }
+            }
+            else{
+                if(this.figure.name === FigureNames.PAWN && store.enPassant && !target.figure){
+                    store.board.getCell(target.y-1, target.x).figure?.deleteFigure()
+                }
+            }
             
             // проверка двойного хода пешки
             if(this.figure.name === FigureNames.PAWN){
@@ -39,6 +52,7 @@ export class Cell{
             target.figure = this.figure
             this.figure = null
             store.setAttackedCells(target.figure.getAvalibleCells())
+            store.increaseMoveCounter()
         }
     }
 }

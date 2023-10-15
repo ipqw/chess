@@ -30,8 +30,8 @@ export class Board {
     }
 
     public addFigures(){
-        this.getCell(0, 4).figure = new King(Colors.BLACK, this.getCell(0, 5))
-        this.getCell(7, 4).figure = new King(Colors.WHITE, this.getCell(7, 5))
+        this.getCell(0, 4).figure = new King(Colors.BLACK, this.getCell(0, 4))
+        this.getCell(7, 4).figure = new King(Colors.WHITE, this.getCell(7, 4))
 
         this.getCell(0, 3).figure = new Queen(Colors.BLACK, this.getCell(0, 3))
         this.getCell(7, 3).figure = new Queen(Colors.WHITE, this.getCell(7, 3))

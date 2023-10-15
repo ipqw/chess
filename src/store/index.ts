@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import { Board } from '../models/Board'
 import { Colors } from '../models/Colors'
 import { Cell } from '../models/Cell'
-import { Figure, FigureNames } from '../models/Figures/Figure'
+import { Figure } from '../models/Figures/Figure'
 
 class Storage {
     constructor(){
@@ -64,6 +64,22 @@ class Storage {
     }
     setEnPassant = (isEnPassant: boolean) => {
         this._enPassant = isEnPassant
+    }
+
+    _check: boolean = false
+    get check(){
+        return this._check
+    }
+    setCheck = (isCheck: boolean) => {
+        this._check = isCheck
+    }
+    
+    _moveCounter: number = 1
+    get moveCounter(){
+        return this._moveCounter
+    }
+    increaseMoveCounter = () => {
+        this._moveCounter++
     }
 }
 
