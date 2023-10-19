@@ -14,6 +14,7 @@ export enum FigureNames {
 }
 
 export class Figure{
+    public moveCounter = 0
     color: Colors
     logo: typeof logo | null
     cell: Cell
@@ -30,6 +31,9 @@ export class Figure{
 
     getAvalibleCells(): Cell[]{
         return [store.board.getCell(this.cell.x, this.cell.y)]
+    }
+    moveWithoutChangeTurn(target: Cell){
+        this.cell = target
     }
 
     moveFigure(target: Cell){

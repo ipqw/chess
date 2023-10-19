@@ -25,10 +25,36 @@ export class Cell{
         return this.figure === null ? true : false
     }
 
+
+
     public moveFigure(target: Cell){
         if(this.figure?.canMove(target)){
             store.setPreviousFigure(this.figure)
             this.figure?.moveFigure(target)
+
+            // рокировка
+            // черные
+            if(this.figure.name === FigureNames.KING && target === store.board.getCell(0, 6) && this.figure.moveCounter === 0){
+                store.board.getCell(0, 7).figure?.moveWithoutChangeTurn(store.board.getCell(0, 5))
+                store.board.getCell(0, 5).figure = store.board.getCell(0, 7).figure
+                store.board.getCell(0, 7).figure = null
+            }
+            if(this.figure.name === FigureNames.KING && target === store.board.getCell(0, 2) && this.figure.moveCounter === 0){
+                store.board.getCell(0, 0).figure?.moveWithoutChangeTurn(store.board.getCell(0, 3))
+                store.board.getCell(0, 3).figure = store.board.getCell(0, 0).figure
+                store.board.getCell(0, 0).figure = null
+            }
+            // белые
+            if(this.figure.name === FigureNames.KING && target === store.board.getCell(7, 6) && this.figure.moveCounter === 0){
+                store.board.getCell(7, 7).figure?.moveWithoutChangeTurn(store.board.getCell(7, 5))
+                store.board.getCell(7, 5).figure = store.board.getCell(7, 7).figure
+                store.board.getCell(7, 7).figure = null
+            }
+            if(this.figure.name === FigureNames.KING && target === store.board.getCell(7, 2) && this.figure.moveCounter === 0){
+                store.board.getCell(7, 0).figure?.moveWithoutChangeTurn(store.board.getCell(7, 3))
+                store.board.getCell(7, 3).figure = store.board.getCell(7, 0).figure
+                store.board.getCell(7, 0).figure = null
+            }
 
             // взятие на проходе
 
@@ -49,6 +75,9 @@ export class Cell{
                 ? this.y - 2 === target.y ? store.setEnPassant(true) : store.setEnPassant(false)
                 : this.y + 2 === target.y ? store.setEnPassant(true) : store.setEnPassant(false)
             }
+
+            this.figure.moveCounter++
+
             target.figure = this.figure
             this.figure = null
             store.setAttackedCells(target.figure.getAvalibleCells())

@@ -25,6 +25,24 @@ export class King extends Figure {
         x+1 < 8 && y-1 >= 0 ? availableCells.push(store.board.getCell(y-1, x+1)) : ''
         x-1 >= 0 && y+1 < 8 ? availableCells.push(store.board.getCell(y+1, x-1)) : ''
         x+1 < 8 && y+1 < 8 ? availableCells.push(store.board.getCell(y+1, x+1)) : ''
+
+        // рокировка    
+        if(this.color === Colors.WHITE){
+            if(store.board.getCell(7, 0).figure?.name === FigureNames.ROOK && store.board.getCell(7, 0).figure?.moveCounter === 0 && this.moveCounter === 0 && store.board.getCell(7, 1).figure === null && store.board.getCell(7, 2).figure === null && store.board.getCell(7, 3).figure === null){
+                availableCells.push(store.board.getCell(7, 2))
+            }
+            if(store.board.getCell(7, 7).figure?.name === FigureNames.ROOK && store.board.getCell(7, 7).figure?.moveCounter === 0 && this.moveCounter === 0 && store.board.getCell(7, 5).figure === null && store.board.getCell(7, 6).figure === null){
+                availableCells.push(store.board.getCell(7, 6))
+            }
+        }
+        else{
+            if(store.board.getCell(0, 0).figure?.name === FigureNames.ROOK && store.board.getCell(0, 0).figure?.moveCounter === 0 && this.moveCounter === 0 && store.board.getCell(0, 1).figure === null && store.board.getCell(0, 2).figure === null && store.board.getCell(0, 3).figure === null){
+                availableCells.push(store.board.getCell(0, 2))
+            }
+            if(store.board.getCell(0, 7).figure?.name === FigureNames.ROOK && store.board.getCell(0, 7).figure?.moveCounter === 0 && this.moveCounter === 0 && store.board.getCell(0, 5).figure === null && store.board.getCell(0, 6).figure === null){
+                availableCells.push(store.board.getCell(0, 6))
+            }
+        }
         
         return availableCells
     }
