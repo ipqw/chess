@@ -26,7 +26,7 @@ export class King extends Figure {
         x-1 >= 0 && y+1 < 8 ? availableCells.push(store.board.getCell(y+1, x-1)) : ''
         x+1 < 8 && y+1 < 8 ? availableCells.push(store.board.getCell(y+1, x+1)) : ''
 
-        // рокировка    
+        // рокировка
         if(this.color === Colors.WHITE){
             if(store.board.getCell(7, 0).figure?.name === FigureNames.ROOK && store.board.getCell(7, 0).figure?.moveCounter === 0 && this.moveCounter === 0 && store.board.getCell(7, 1).figure === null && store.board.getCell(7, 2).figure === null && store.board.getCell(7, 3).figure === null){
                 availableCells.push(store.board.getCell(7, 2))

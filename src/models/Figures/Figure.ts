@@ -12,7 +12,6 @@ export enum FigureNames {
     QUEEN = 'Ферзь',
     PAWN = 'Пешка'
 }
-
 export class Figure{
     public moveCounter = 0
     color: Colors
@@ -28,7 +27,6 @@ export class Figure{
         this.name = FigureNames.FIGURE
         this.id = Math.random()
     }
-
     getAvalibleCells(): Cell[]{
         return [store.board.getCell(this.cell.x, this.cell.y)]
     }
@@ -46,6 +44,19 @@ export class Figure{
         store.resetAvalibleCells()
         if(!this.getAvalibleCells().includes(target) || target.figure?.color === this.color || store.turn !== this.color){
             return false
+        }
+        // проверка короля
+        if(this.name === FigureNames.KING){
+            if(this.color === Colors.WHITE){
+                if(store.attackedCellsByBlack.includes(target)){
+                    return false
+                }
+            }
+            else{
+                if(store.attackedCellsByWhite.includes(target)){
+                    return false
+                }
+            }
         }
         
         return true

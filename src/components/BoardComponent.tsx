@@ -10,6 +10,7 @@ const BoardComponent: FC = observer(() => {
     const click = (cell: Cell) => {
         if(store.selectedCell !== null && store.selectedCell.figure?.color === store.turn){
             store.selectedCell.moveFigure(cell)
+            store.setSelectedCell(null)
         }
         else{   
             cell.figure ? store.setSelectedCell(cell) : ''

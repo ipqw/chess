@@ -1,16 +1,18 @@
+import { toJS } from "mobx"
 import { store } from "../store"
 import { Board } from "./Board"
 import { Colors } from "./Colors"
 import { Figure, FigureNames } from "./Figures/Figure"
 
 export class Cell{
-    readonly x: number 
-    readonly y: number 
+    readonly x: number
+    readonly y: number
     readonly color: Colors
     figure: Figure | null
     board: Board
     available: boolean //  Можно ли переместиться
     id: number // Для реакт ключей
+    isAttacked: boolean = false
 
     constructor(board: Board, x: number, y: number, color: Colors, figure: Figure | null){
         this.x = x
@@ -25,10 +27,8 @@ export class Cell{
         return this.figure === null ? true : false
     }
 
-
-
     public moveFigure(target: Cell){
-        if(this.figure?.canMove(target)){
+        if(this.figure?.canMove(target)) {
             store.setPreviousFigure(this.figure)
             this.figure?.moveFigure(target)
 
@@ -80,8 +80,11 @@ export class Cell{
 
             target.figure = this.figure
             this.figure = null
-            store.setAttackedCells(target.figure.getAvalibleCells())
             store.increaseMoveCounter()
+            store.checkAttackedCellsByWhite()
+            store.checkAttackedCellsByBlack()
+            console.log('white', toJS(store.attackedCellsByWhite))
+            console.log('black', toJS(store.attackedCellsByBlack))
         }
     }
 }

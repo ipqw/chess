@@ -17,6 +17,8 @@ class Storage {
         this._board.initCells()
         this._board.addFigures()
     }
+    
+
     _turn: Colors = Colors.WHITE
     get turn(){
         return this._turn
@@ -41,13 +43,29 @@ class Storage {
             cell.figure === null ? cell.available = true : cell.available = false
         })
     }
-
-    _attackedCells: Cell[] = []
-    get attackedCells(): Cell[] {
-        return this._attackedCells
+    // белые
+    _attackedCellsByWhite: Cell[] = []
+    get attackedCellsByWhite(): Cell[] {
+        return this._attackedCellsByWhite
     }
-    setAttackedCells = (cells: Cell[]) => {
-        this._attackedCells = cells
+    checkAttackedCellsByWhite = () => {
+        this.board.cells.map((el: Cell[]) => {
+            el.map((cell: Cell) => {
+                cell.figure?.color === Colors.WHITE ? cell.figure?.getAvalibleCells().map((element: Cell) => {this._attackedCellsByWhite.push(element)}) : ''
+            })
+        })
+    }
+    // черные
+    _attackedCellsByBlack: Cell[] = []
+    get attackedCellsByBlack(): Cell[] {
+        return this._attackedCellsByBlack
+    }
+    checkAttackedCellsByBlack = () => {
+        this.board.cells.map((el: Cell[]) => {
+            el.map((cell: Cell) => {
+                cell.figure?.color === Colors.BLACK ? cell.figure?.getAvalibleCells().map((element: Cell) => {this._attackedCellsByBlack.push(element)}) : ''
+            })
+        })
     }
 
     _previousFigure: Figure | null = null
@@ -65,14 +83,6 @@ class Storage {
     setEnPassant = (isEnPassant: boolean) => {
         this._enPassant = isEnPassant
     }
-
-    _check: boolean = false
-    get check(){
-        return this._check
-    }
-    setCheck = (isCheck: boolean) => {
-        this._check = isCheck
-    }
     
     _moveCounter: number = 1
     get moveCounter(){
@@ -81,7 +91,7 @@ class Storage {
     increaseMoveCounter = () => {
         this._moveCounter++
     }
-}
+}   
 
 
 export const store = new Storage()
