@@ -56,6 +56,8 @@ export class Cell{
                 store.board.getCell(7, 0).figure = null
             }
 
+            
+
             // взятие на проходе
 
             if(this.figure.color === Colors.WHITE){

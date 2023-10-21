@@ -1,6 +1,4 @@
 import { makeAutoObservable } from "mobx"
-import { Board } from '../models/Board'
-import { Colors } from '../models/Colors'
 import { Cell } from '../models/Cell'
 import { Figure } from '../models/Figures/Figure'
 
