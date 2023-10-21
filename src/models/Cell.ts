@@ -87,12 +87,22 @@ export class Cell{
             
             store.attackedCellsByBlack.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.WHITE}) ? (checkStore.setIsCheckWhite(true), checkStore.increaseCheckCounterWhite()) : (checkStore.setIsCheckWhite(false), checkStore.resetCheckCounterWhite())
             store.attackedCellsByWhite.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.BLACK}) ? (checkStore.setIsCheckBlack(true), checkStore.increaseCheckCounterBlack()) : (checkStore.setIsCheckBlack(false), checkStore.resetCheckCounterBlack())
-            if(checkStore.checkCounter >= 2){
+            
+            if(store.turn === store.previousFigure?.color && store.previousFigure.color === Colors.WHITE ? checkStore.checkCounterWhite === 1 : checkStore.checkCounterBlack === 1){
+                this.figure = store.previousFigure
+                target.figure = checkStore.eatenFigure
+                this.figure?.moveFigure(this)
+                store.previousFigure?.color === Colors.WHITE ? checkStore.resetCheckCounterWhite() : checkStore.resetCheckCounterBlack()
+                return
+            }
+
+            if(checkStore.checkCounterBlack >= 2 || checkStore.checkCounterWhite >= 2){
                 this.figure = store.previousFigure
                 target.figure = checkStore.eatenFigure
                 this.figure?.moveFigure(this)
                 return
             }
+            
             
             store.turn === Colors.WHITE ? checkStore.isCheckWhite ? '' : store.changeTurn() : checkStore.isCheckBlack ? '' : store.changeTurn()
         }

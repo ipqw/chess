@@ -21,7 +21,7 @@ class Storage {
     }
 
     _checkCounterBlack: number = 0
-    get checkCounter(){
+    get checkCounterBlack(){
         return this._checkCounterBlack
     }
     increaseCheckCounterBlack = () => {
