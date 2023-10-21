@@ -49,6 +49,7 @@ class Storage {
         return this._attackedCellsByWhite
     }
     checkAttackedCellsByWhite = () => {
+        this._attackedCellsByWhite = []
         this.board.cells.map((el: Cell[]) => {
             el.map((cell: Cell) => {
                 cell.figure?.color === Colors.WHITE ? cell.figure?.getAvalibleCells().map((element: Cell) => {this._attackedCellsByWhite.push(element)}) : ''
@@ -61,6 +62,7 @@ class Storage {
         return this._attackedCellsByBlack
     }
     checkAttackedCellsByBlack = () => {
+        this._attackedCellsByBlack = []
         this.board.cells.map((el: Cell[]) => {
             el.map((cell: Cell) => {
                 cell.figure?.color === Colors.BLACK ? cell.figure?.getAvalibleCells().map((element: Cell) => {this._attackedCellsByBlack.push(element)}) : ''

@@ -51,6 +51,13 @@ export class Pawn extends Figure {
         if(store.enPassant && store.turn === Colors.WHITE && store.previousFigure?.cell.y === this.cell.y && store.previousFigure?.cell.x === this.cell.x-1){
             availableCellsWhite.push(store.board.getCell(this.cell.y-1, this.cell.x-1))
         }
+
+        if(this.color !== store.turn){
+            this.cell.y+1 < 8 && this.cell.x+1 < 8 ? availableCellsBlack.push(store.board.getCell(this.cell.y+1, this.cell.x+1)) : ''
+            this.cell.y+1 < 8 && this.cell.x-1 >= 0? availableCellsBlack.push(store.board.getCell(this.cell.y+1, this.cell.x-1)) : ''
+            this.cell.y-1 >= 0 && this.cell.x+1 < 8 ? availableCellsWhite.push(store.board.getCell(this.cell.y-1, this.cell.x+1)) : ''
+            this.cell.y-1 >= 0 && this.cell.x-1 >= 0 ? availableCellsWhite.push(store.board.getCell(this.cell.y-1, this.cell.x-1)) : ''
+        }
         
         return this.color === Colors.WHITE ? availableCellsWhite : availableCellsBlack
     }

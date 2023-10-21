@@ -11,6 +11,8 @@ const BoardComponent: FC = observer(() => {
         if(store.selectedCell !== null && store.selectedCell.figure?.color === store.turn){
             store.selectedCell.moveFigure(cell)
             store.setSelectedCell(null)
+            store.checkAttackedCellsByWhite()
+            store.checkAttackedCellsByBlack()
         }
         else{   
             cell.figure ? store.setSelectedCell(cell) : ''

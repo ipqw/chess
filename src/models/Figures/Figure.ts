@@ -2,6 +2,7 @@ import logo from '../../../src/assets/bk.png'
 import { Colors } from '../Colors'
 import { Cell } from '../Cell'
 import { store } from '../../store'
+import {checkStore } from '../../store/check'
 
 export enum FigureNames {
     FIGURE = 'Фигура',
@@ -35,7 +36,9 @@ export class Figure{
     }
 
     moveFigure(target: Cell){
-        store.turn === Colors.WHITE ? store.changeTurn() : store.changeTurn()        
+        checkStore.setPreviousPosition(this.cell)
+        checkStore.setEatenFigure(target.figure)
+        checkStore.setActualPosition(target)
         this.cell = target
     }
     
