@@ -3,6 +3,7 @@ import { checkStore } from "../store/check"
 import { Board } from "./Board"
 import { Colors } from "./Colors"
 import { Figure, FigureNames } from "./Figures/Figure"
+import { Queen } from "./Figures/Queen"
 
 export class Cell{
     readonly x: number
@@ -56,7 +57,13 @@ export class Cell{
                 store.board.getCell(7, 0).figure = null
             }
 
-            
+            // превращение пешки
+            if(this.figure.name === FigureNames.PAWN && this.figure.color === Colors.WHITE && this.figure.cell.y === 0){
+                target.figure = new Queen(Colors.WHITE, target)
+            }
+            if(this.figure.name === FigureNames.PAWN && this.figure.color === Colors.BLACK && this.figure.cell.y === 7){
+                target.figure = new Queen(Colors.BLACK, target)
+            }
 
             // взятие на проходе
 
@@ -79,8 +86,10 @@ export class Cell{
             }
 
             this.figure.moveCounter++
-
-            target.figure = this.figure
+            
+            this.figure.color === Colors.WHITE 
+            ? this.figure.name === FigureNames.PAWN  && this.figure.cell.y === 0 ? '' : target.figure = this.figure
+            : this.figure.name === FigureNames.PAWN  && this.figure.cell.y === 7 ? '' : target.figure = this.figure
             this.figure = null
             store.increaseMoveCounter()
             store.checkAttackedCellsByWhite()
