@@ -16,11 +16,12 @@ export class Pawn extends Figure {
 
         const availableCellsBlack: Cell[] = []
 
+        // двойной ход
         if(this.color === Colors.WHITE){
-            this.cell.y === 6 && !store.board.getCell(4, this.cell.x).figure ? availableCellsWhite.push(store.board.getCell(this.cell.y - 2, this.cell.x)) : ''
+            this.cell.y === 6 && !store.board.getCell(4, this.cell.x).figure && !store.board.getCell(5, this.cell.x).figure ? availableCellsWhite.push(store.board.getCell(this.cell.y - 2, this.cell.x)) : ''
         }
         else{
-            this.cell.y === 1 && !store.board.getCell(3, this.cell.x).figure ? availableCellsBlack.push(store.board.getCell(this.cell.y + 2, this.cell.x)) : ''
+            this.cell.y === 1 && !store.board.getCell(3, this.cell.x).figure && !store.board.getCell(2, this.cell.x).figure ? availableCellsBlack.push(store.board.getCell(this.cell.y + 2, this.cell.x)) : ''
         }
        
         this.cell.y+1 < 8 && this.cell.x-1 >= 0 ? store.board.getCell(this.cell.y+1, this.cell.x-1).figure ? availableCellsBlack.push(store.board.getCell(this.cell.y+1, this.cell.x-1)) : '' : ''
@@ -36,19 +37,19 @@ export class Pawn extends Figure {
 
 
         // взятие на проходе
-        if(store.enPassant && store.turn === Colors.BLACK && store.previousFigure?.cell.y === this.cell.y && store.previousFigure?.cell.x === this.cell.x+1){
+        if(store.enPassant && store.turn === Colors.BLACK && store.previousFigureEnPassant?.cell.y === this.cell.y && store.previousFigureEnPassant?.cell.x === this.cell.x+1){
             availableCellsBlack.push(store.board.getCell(this.cell.y+1, this.cell.x+1))
         }
 
-        if(store.enPassant && store.turn === Colors.BLACK && store.previousFigure?.cell.y === this.cell.y && store.previousFigure?.cell.x === this.cell.x-1){
+        if(store.enPassant && store.turn === Colors.BLACK && store.previousFigureEnPassant?.cell.y === this.cell.y && store.previousFigureEnPassant?.cell.x === this.cell.x-1){
             availableCellsBlack.push(store.board.getCell(this.cell.y+1, this.cell.x-1))
         }
 
-        if(store.enPassant && store.turn === Colors.WHITE && store.previousFigure?.cell.y === this.cell.y && store.previousFigure?.cell.x === this.cell.x+1){
+        if(store.enPassant && store.turn === Colors.WHITE && store.previousFigureEnPassant?.cell.y === this.cell.y && store.previousFigureEnPassant?.cell.x === this.cell.x+1){
             availableCellsWhite.push(store.board.getCell(this.cell.y-1, this.cell.x+1))
         }
 
-        if(store.enPassant && store.turn === Colors.WHITE && store.previousFigure?.cell.y === this.cell.y && store.previousFigure?.cell.x === this.cell.x-1){
+        if(store.enPassant && store.turn === Colors.WHITE && store.previousFigureEnPassant?.cell.y === this.cell.y && store.previousFigureEnPassant?.cell.x === this.cell.x-1){
             availableCellsWhite.push(store.board.getCell(this.cell.y-1, this.cell.x-1))
         }
 

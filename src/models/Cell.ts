@@ -1,3 +1,4 @@
+import { toJS } from "mobx"
 import { store } from "../store"
 import { checkStore } from "../store/check"
 import { Board } from "./Board"
@@ -106,7 +107,6 @@ export class Cell{
                 store.previousFigure?.color === Colors.WHITE ? checkStore.resetCheckCounterWhite() : checkStore.resetCheckCounterBlack()
                 return
             }
-
             if(checkStore.checkCounterBlack >= 2 || checkStore.checkCounterWhite >= 2){
                 this.figure = store.previousFigure
                 target.figure = checkStore.eatenFigure
@@ -114,8 +114,8 @@ export class Cell{
                 return
             }
             
+            store.turn === Colors.WHITE ? checkStore.isCheckWhite ? '' : (store.changeTurn(), store.setPreviousFigureEnPassant(store.previousFigure)) : checkStore.isCheckBlack ? '' : (store.changeTurn(), store.setPreviousFigureEnPassant(store.previousFigure))
             
-            store.turn === Colors.WHITE ? checkStore.isCheckWhite ? '' : store.changeTurn() : checkStore.isCheckBlack ? '' : store.changeTurn()
         }
     }
 }

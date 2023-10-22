@@ -31,6 +31,9 @@ export class Figure{
     getAvalibleCells(): Cell[]{
         return [store.board.getCell(this.cell.x, this.cell.y)]
     }
+    getRetreatCells(): Cell[]{
+        return [store.board.getCell(this.cell.x, this.cell.y)]
+    }
     moveWithoutChangeTurn(target: Cell){
         this.cell = target
     }

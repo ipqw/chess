@@ -12,7 +12,6 @@ class Storage {
     }
     increaseCheckCounterWhite = () => {
         this._checkCounterWhite++
-        console.log(this._checkCounterWhite)
     }
     resetCheckCounterWhite = () => {
         this._checkCounterWhite = 0
@@ -24,7 +23,6 @@ class Storage {
     }
     increaseCheckCounterBlack = () => {
         this._checkCounterBlack++
-        console.log(this._checkCounterBlack)
     }
     resetCheckCounterBlack = () => {
         this._checkCounterBlack = 0
@@ -69,6 +67,13 @@ class Storage {
     }
     setEatenFigure = (el: Figure | null) => {
         this._eatenFigure = el
+    }
+    _retreatCells: Cell[] = []
+    get retreatCells(){
+        return this._retreatCells
+    }
+    setRetreatCells = (el: Cell[]) => {
+        this._retreatCells = el
     }
 }
 

@@ -2,12 +2,14 @@ import { makeAutoObservable } from 'mobx'
 import { Board } from '../models/Board'
 import { Colors } from '../models/Colors'
 import { Cell } from '../models/Cell'
-import { Figure } from '../models/Figures/Figure'
+import { Figure, FigureNames } from '../models/Figures/Figure'
+import { checkStore } from './check'
 
 class Storage {
     constructor(){
         makeAutoObservable(this)
     }
+    win: Colors | null = null
     _board: Board = new Board
     get board(){
         return this._board
@@ -23,9 +25,7 @@ class Storage {
     get turn(){
         return this._turn
     }
-    changeTurn = () => {
-        this.turn === Colors.WHITE ? this._turn = Colors.BLACK : this._turn = Colors.WHITE
-    }
+    
     _selectedCell: Cell | null = null
     get selectedCell(){
         return this._selectedCell
@@ -77,13 +77,20 @@ class Storage {
     setPreviousFigure = (figure: Figure) => {
         this._previousFigure = figure
     }
-
+    // взятие на проходе
     _enPassant: boolean = false
     get enPassant(){
         return this._enPassant
     }
     setEnPassant = (isEnPassant: boolean) => {
         this._enPassant = isEnPassant
+    }
+    _previousFigureEnPassant: Figure | null = null
+    get previousFigureEnPassant(){
+        return this._previousFigureEnPassant
+    }
+    setPreviousFigureEnPassant = (figure: Figure | null) => {
+        this._previousFigureEnPassant = figure
     }
     
     _moveCounter: number = 1
@@ -92,6 +99,19 @@ class Storage {
     }
     increaseMoveCounter = () => {
         this._moveCounter++
+    }
+
+    changeTurn = () => {
+        this.turn === Colors.WHITE ? this._turn = Colors.BLACK : this._turn = Colors.WHITE
+        if(checkStore.isCheckBlack && this.attackedCellsByWhite.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.BLACK})?.figure?.getRetreatCells().length === 0){
+            this.win = Colors.WHITE
+        }
+        if(checkStore.isCheckWhite && this.attackedCellsByBlack.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.WHITE})?.figure?.getRetreatCells().length === 0){
+            this.win = Colors.BLACK
+        }
+        if(this.win !== null){
+            console.log(this.win)
+        }        
     }
 }   
 

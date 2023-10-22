@@ -17,16 +17,51 @@ export class King extends Figure {
         let x = this.cell.x
         let y = this.cell.y
         
-        x-1 >= 0 ? availableCells.push(store.board.getCell(y, x-1)) : ''
-        x+1 < 8 ? availableCells.push(store.board.getCell(y, x+1)) : ''
-        y-1 >= 0 ? availableCells.push(store.board.getCell(y-1, x)) : ''
-        y+1 < 8 ? availableCells.push(store.board.getCell(y+1, x)) : ''
 
-        x-1 >= 0 && y-1 >= 0 ? availableCells.push(store.board.getCell(y-1, x-1)) : ''
-        x+1 < 8 && y-1 >= 0 ? availableCells.push(store.board.getCell(y-1, x+1)) : ''
-        x-1 >= 0 && y+1 < 8 ? availableCells.push(store.board.getCell(y+1, x-1)) : ''
-        x+1 < 8 && y+1 < 8 ? availableCells.push(store.board.getCell(y+1, x+1)) : ''
-
+        if(x-1 >= 0){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y, x-1)) ? '' : availableCells.push(store.board.getCell(y, x-1))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y, x-1)) ? '' : availableCells.push(store.board.getCell(y, x-1))
+        }
+        if(x+1 < 8){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y, x+1)) ? '' : availableCells.push(store.board.getCell(y, x+1))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y, x+1)) ? '' : availableCells.push(store.board.getCell(y, x+1))
+        }
+        if(y-1 >= 0){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y-1, x)) ? '' : availableCells.push(store.board.getCell(y-1, x))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y-1, x)) ? '' : availableCells.push(store.board.getCell(y-1, x))
+        }
+        if(y+1 < 8){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y+1, x)) ? '' : availableCells.push(store.board.getCell(y+1, x))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y+1, x)) ? '' : availableCells.push(store.board.getCell(y+1, x))
+        }
+        
+        if(x-1 >= 0 && y-1 >= 0){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y-1, x-1)) ? '' : availableCells.push(store.board.getCell(y-1, x-1))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y-1, x-1)) ? '' : availableCells.push(store.board.getCell(y-1, x-1))
+        }
+        
+        if(x+1 < 8 && y-1 >= 0){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y-1, x+1)) ? '' : availableCells.push(store.board.getCell(y-1, x+1))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y-1, x+1)) ? '' : availableCells.push(store.board.getCell(y-1, x+1))
+        }
+        
+        if(x-1 >= 0 && y+1 < 8){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y+1, x-1)) ? '' : availableCells.push(store.board.getCell(y+1, x-1))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y+1, x-1)) ? '' : availableCells.push(store.board.getCell(y+1, x-1))
+        }
+        
+        if(x+1 < 8 && y+1 < 8){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y+1, x+1)) ? '' : availableCells.push(store.board.getCell(y+1, x+1))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y+1, x+1)) ? '' : availableCells.push(store.board.getCell(y+1, x+1))
+        }
         // рокировка
         if(this.color === Colors.WHITE){
             if(store.board.getCell(7, 0).figure?.name === FigureNames.ROOK && store.board.getCell(7, 0).figure?.moveCounter === 0 && this.moveCounter === 0 
@@ -53,6 +88,58 @@ export class King extends Figure {
             && !store.attackedCellsByWhite.includes(store.board.getCell(0, 5)) && !store.attackedCellsByWhite.includes(store.board.getCell(0, 6))){
                 availableCells.push(store.board.getCell(0, 6))
             }
+        }        
+        return availableCells
+    }
+    getRetreatCells(){
+        const availableCells: Cell[] = []
+        let x = this.cell.x
+        let y = this.cell.y
+        
+
+        if(x-1 >= 0){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y, x-1)) || store.board.getCell(y, x-1).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y, x-1))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y, x-1)) || store.board.getCell(y, x-1).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y, x-1))
+        }
+        if(x+1 < 8){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y, x+1)) || store.board.getCell(y, x+1).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y, x+1))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y, x+1)) || store.board.getCell(y, x+1).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y, x+1))
+        }
+        if(y-1 >= 0){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y-1, x)) || store.board.getCell(y-1, x).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y-1, x))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y-1, x)) || store.board.getCell(y-1, x).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y-1, x))
+        }
+        if(y+1 < 8){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y+1, x)) || store.board.getCell(y+1, x).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y+1, x))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y+1, x)) || store.board.getCell(y+1, x).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y+1, x))
+        }
+        
+        if(x-1 >= 0 && y-1 >= 0){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y-1, x-1)) || store.board.getCell(y-1, x-1).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y-1, x-1))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y-1, x-1)) || store.board.getCell(y-1, x-1).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y-1, x-1))
+        }
+        
+        if(x+1 < 8 && y-1 >= 0){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y-1, x+1)) || store.board.getCell(y-1, x+1).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y-1, x+1))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y-1, x+1)) || store.board.getCell(y-1, x+1).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y-1, x+1))
+        }
+        
+        if(x-1 >= 0 && y+1 < 8){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y+1, x-1)) || store.board.getCell(y+1, x-1).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y+1, x-1))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y+1, x-1)) || store.board.getCell(y+1, x-1).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y+1, x-1))
+        }
+        
+        if(x+1 < 8 && y+1 < 8){
+            this.color === Colors.WHITE 
+            ? store.attackedCellsByBlack.includes(store.board.getCell(y+1, x+1)) || store.board.getCell(y+1, x+1).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y+1, x+1))
+            : store.attackedCellsByWhite.includes(store.board.getCell(y+1, x+1)) || store.board.getCell(y+1, x+1).figure?.color === this.color ? '' : availableCells.push(store.board.getCell(y+1, x+1))
         }
         
         return availableCells
