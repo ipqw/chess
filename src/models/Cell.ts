@@ -1,4 +1,3 @@
-import { toJS } from "mobx"
 import { store } from "../store"
 import { checkStore } from "../store/check"
 import { Board } from "./Board"
@@ -14,7 +13,6 @@ export class Cell{
     board: Board
     available: boolean //  Можно ли переместиться
     id: number // Для реакт ключей
-    isAttacked: boolean = false
 
     constructor(board: Board, x: number, y: number, color: Colors, figure: Figure | null){
         this.x = x
@@ -115,7 +113,6 @@ export class Cell{
             }
             
             store.turn === Colors.WHITE ? checkStore.isCheckWhite ? '' : (store.changeTurn(), store.setPreviousFigureEnPassant(store.previousFigure)) : checkStore.isCheckBlack ? '' : (store.changeTurn(), store.setPreviousFigureEnPassant(store.previousFigure))
-            
         }
     }
 }

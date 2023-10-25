@@ -69,6 +69,44 @@ class Storage {
             })
         })
     }
+    // мат
+    getWhiteAttackingFigure = (): Figure | null => {
+        let resultFigure: Figure | null = null
+        this.board.cells.map((cells: Cell[]) => {
+            cells.map((cell: Cell) => {
+                if(cell.figure?.getAvalibleCells().find((elem: Cell) => {
+                    return (elem.figure?.name === FigureNames.KING && elem.figure.color === Colors.BLACK)
+                })){
+                    resultFigure = cell.figure
+                }
+                
+            })
+        })
+        return resultFigure
+    }
+    getBlackAttackingFigure = (): Figure | null => {
+        let resultFigure: Figure | null = null
+        this.board.cells.map((cells: Cell[]) => {
+            cells.map((cell: Cell) => {
+                if(cell.figure?.getAvalibleCells().find((elem: Cell) => {
+                    return (elem.figure?.name === FigureNames.KING && elem.figure.color === Colors.WHITE)
+                })){
+                    resultFigure = cell.figure
+                }
+                
+            })
+        })
+        return resultFigure
+    }
+    getAttackedCellsByWhiteWithoutKing = () => {
+        this.checkAttackedCellsByWhite()
+        return this.attackedCellsByWhite.filter((el: Cell) => {el.figure?.name !== FigureNames.KING})
+    }
+    getAttackedCellsByBlackWithoutKing = () => {
+        this.checkAttackedCellsByBlack()
+        return this.attackedCellsByBlack.filter((el: Cell) => {el.figure?.name !== FigureNames.KING})
+    }
+
 
     _previousFigure: Figure | null = null
     get previousFigure(){
@@ -102,16 +140,27 @@ class Storage {
     }
 
     changeTurn = () => {
+        this.checkAttackedCellsByWhite()
+        this.checkAttackedCellsByBlack()
         this.turn === Colors.WHITE ? this._turn = Colors.BLACK : this._turn = Colors.WHITE
-        if(checkStore.isCheckBlack && this.attackedCellsByWhite.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.BLACK})?.figure?.getRetreatCells().length === 0){
+
+        const figureWhite: any = this.getWhiteAttackingFigure() 
+        if(checkStore.isCheckBlack && this.attackedCellsByWhite.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.BLACK})?.figure?.getRetreatCells().length === 0
+        && !this.attackedCellsByBlack.includes(figureWhite.cell)){
+            console.log(!this.attackedCellsByBlack.includes(figureWhite.cell))
             this.win = Colors.WHITE
         }
-        if(checkStore.isCheckWhite && this.attackedCellsByBlack.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.WHITE})?.figure?.getRetreatCells().length === 0){
+        
+        const figureBlack: any = this.getBlackAttackingFigure() 
+        if(checkStore.isCheckWhite && this.attackedCellsByBlack.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.WHITE})?.figure?.getRetreatCells().length === 0
+        && !this._attackedCellsByWhite.includes(figureBlack.cell)){
+            console.log(!this.attackedCellsByWhite.includes(figureBlack.cell))
             this.win = Colors.BLACK
         }
+        
         if(this.win !== null){
             console.log(this.win)
-        }        
+        }
     }
 }   
 
