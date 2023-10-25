@@ -147,19 +147,13 @@ class Storage {
         const figureWhite: any = this.getWhiteAttackingFigure() 
         if(checkStore.isCheckBlack && this.attackedCellsByWhite.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.BLACK})?.figure?.getRetreatCells().length === 0
         && !this.attackedCellsByBlack.includes(figureWhite.cell)){
-            console.log(!this.attackedCellsByBlack.includes(figureWhite.cell))
             this.win = Colors.WHITE
         }
         
         const figureBlack: any = this.getBlackAttackingFigure() 
         if(checkStore.isCheckWhite && this.attackedCellsByBlack.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.WHITE})?.figure?.getRetreatCells().length === 0
         && !this._attackedCellsByWhite.includes(figureBlack.cell)){
-            console.log(!this.attackedCellsByWhite.includes(figureBlack.cell))
             this.win = Colors.BLACK
-        }
-        
-        if(this.win !== null){
-            console.log(this.win)
         }
     }
 }   

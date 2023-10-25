@@ -24,13 +24,14 @@ const BoardComponent: FC = observer(() => {
         }
 
     }
+    
     return(
         <BoardWrapper>
-            {store.board?.cells.map((row, index) => {
-                return (<div key={index}>
-                    {row.map((cell: Cell): any => {
+            {store.board?.cells.map((row, indexNum) => {
+                return (<div key={indexNum}>
+                    {row.map((cell: Cell, indexLet): any => {
                         return(
-                            <CellComponent click={click} selected={cell.x === store.selectedCell?.x && cell.y === store.selectedCell?.y } cell={cell} key={cell.id} />
+                            <CellComponent click={click} indexNum={indexNum} indexLet={indexLet} selected={cell.x === store.selectedCell?.x && cell.y === store.selectedCell?.y } cell={cell} key={cell.id} />
                         )
                     })}
                 </div>)
@@ -40,9 +41,10 @@ const BoardComponent: FC = observer(() => {
 })
 
 const BoardWrapper = styled.div`
+    max-height: 800px;
+    max-width: 800px;
     margin: 20px;
     display: flex;
-    border: 2px solid;
 `
 
 export default BoardComponent

@@ -25,4 +25,6 @@ export default App
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
+  background-color: #686868;
+  height: 100vh;
 `

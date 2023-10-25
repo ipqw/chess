@@ -5,16 +5,41 @@ interface CellProps {
     cell: Cell,
     selected: boolean,
     click: (cell: Cell) => void,
+    indexNum: number
+    indexLet: number
 }
 
-const CellComponent: FC<CellProps> = ({cell, selected, click}) => {
+const CellComponent: FC<CellProps> = ({cell, selected, click, indexNum, indexLet}) => {
+    const letters: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+    const numbers: number[] = [8, 7, 6, 5, 4, 3, 2, 1]
     return(
-        <CellWrapper onClick={() => {click(cell)}} style={{backgroundColor: selected ? 'red' : cell.color, }}>
-            <AvalibleWrapper style={{display: cell.available ? 'block' : 'none'}} />
-            {cell?.figure?.logo && <FigureLogo src={cell.figure.logo} />}
-        </CellWrapper>
+        <Wrapper>
+            <NumWrapper style={{display: indexNum === 0 ? 'block' : 'none'}}>{numbers[indexLet]}</NumWrapper>
+            <div>
+                <CellWrapper onClick={() => {click(cell)}} style={{backgroundColor: selected ? 'red' : cell.color, }}>
+                    <AvalibleWrapper style={{display: cell.available ? 'block' : 'none'}} />
+                    {cell?.figure?.logo && <FigureLogo src={cell.figure.logo} />}
+                </CellWrapper>
+                <LetWrapper style={{display: indexLet === 7 ? 'block' : 'none'}}>{letters[indexNum]}</LetWrapper>
+            </div>
+        </Wrapper>
+        
     )
 }
+const LetWrapper = styled.div`
+    display: block;
+    font-size: 22px;
+    margin-top: 5px;
+`
+const NumWrapper = styled.div`
+    display: block;
+    font-size: 22px;
+    margin-right: 15px;
+`
+
+const Wrapper = styled.div`
+    display: flex;
+`
 
 const AvalibleWrapper = styled.div`
     width: 20px;
