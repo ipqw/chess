@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Cell } from '../models/Cell'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
 import { store } from '../store'
 interface CellProps {
@@ -14,15 +14,21 @@ interface CellProps {
 const CellComponent: FC<CellProps> = observer(({cell, selected, click, indexNum, indexLet}) => {
     const letters: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
     const numbers: number[] = [8, 7, 6, 5, 4, 3, 2, 1]
+    const [isRotated, setIsRotated] = useState(false)
+
+    useEffect(() => {
+        setIsRotated(store.isRotated)
+        console.log(isRotated)
+    }, [store.isRotated])
     return(
         <Wrapper>
-            <NumWrapper style={{display: indexNum === 0 ? 'flex' : 'none', transform: `${store._isRotated ? 'rotate(180deg)' : ' transform: none'}`}}>{numbers[indexLet]}</NumWrapper>
+            <NumWrapper style={{display: indexNum === 0 ? 'flex' : 'none', transform: `rotate(${isRotated ? '180deg' : '0deg'})`}}>{numbers[indexLet]}</NumWrapper>
             <div>
-                <CellWrapper onClick={() => {click(cell)}} style={{backgroundColor: selected ? 'red' : cell.color, transform: `${store._isRotated ? 'rotate(180deg)' : ' transform: none'}`}}>
+                <CellWrapper onClick={() => {click(cell)}} style={{backgroundColor: selected ? 'red' : cell.color, transform: `rotate(${isRotated ? '180deg' : '0deg'})`}}>
                     <AvalibleWrapper style={{display: cell.available ? 'block' : 'none'}} />
                     {cell?.figure?.logo && <FigureLogo src={cell.figure.logo} />}
                 </CellWrapper>
-                <LetWrapper style={{display: indexLet === 7 ? 'flex' : 'none', transform: `${store._isRotated ? 'rotate(180deg)' : ' transform: none'}`}}>{letters[indexNum]}</LetWrapper>
+                <LetWrapper style={{display: indexLet === 7 ? 'flex' : 'none', transform: `rotate(${isRotated ? '180deg' : '0deg'})`}}>{letters[indexNum]}</LetWrapper>
             </div>
         </Wrapper>
         

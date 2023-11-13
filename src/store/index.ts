@@ -15,6 +15,9 @@ class Storage {
         return this._board
     }
     _isRotated: boolean = false
+    get isRotated(){
+        return this._isRotated
+    }
     rotateBoard = () => {
         this._isRotated = !this._isRotated
     }
