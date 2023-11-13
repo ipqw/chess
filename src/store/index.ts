@@ -14,6 +14,10 @@ class Storage {
     get board(){
         return this._board
     }
+    _isRotated: boolean = false
+    rotateBoard = () => {
+        this._isRotated = !this._isRotated
+    }
     restartBoard(){
         this._board = new Board
         this._board.initCells()

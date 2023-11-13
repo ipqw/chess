@@ -1,11 +1,16 @@
 import styled from 'styled-components'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import CellComponent from './CellComponent'
 import { Cell } from '../models/Cell'
 import { store } from '../store'
 import { observer } from 'mobx-react'
 
 const BoardComponent: FC = observer(() => {
+
+    const [isRotated, setIsRotated] = useState(store._isRotated)
+    useEffect(() => {
+        setIsRotated(!isRotated)
+    }, [store._isRotated])
 
     const click = (cell: Cell) => {
         if(store.selectedCell !== null && store.selectedCell.figure?.color === store.turn){
@@ -26,7 +31,7 @@ const BoardComponent: FC = observer(() => {
     }
     
     return(
-        <BoardWrapper>
+        <BoardWrapper style={{ transform: `rotate(${isRotated ? 180: 0})`}}>
             {store.board?.cells.map((row, indexNum) => {
                 return (<div key={indexNum}>
                     {row.map((cell: Cell, indexLet): any => {
@@ -41,9 +46,6 @@ const BoardComponent: FC = observer(() => {
 })
 
 const BoardWrapper = styled.div`
-    max-height: 800px;
-    max-width: 800px;
-    margin: 20px;
     display: flex;
 `
 

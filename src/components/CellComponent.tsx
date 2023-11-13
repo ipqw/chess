@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import { Cell } from '../models/Cell'
 import { FC } from 'react'
+import { observer } from 'mobx-react'
+import { store } from '../store'
 interface CellProps {
     cell: Cell,
     selected: boolean,
@@ -9,36 +11,39 @@ interface CellProps {
     indexLet: number
 }
 
-const CellComponent: FC<CellProps> = ({cell, selected, click, indexNum, indexLet}) => {
+const CellComponent: FC<CellProps> = observer(({cell, selected, click, indexNum, indexLet}) => {
     const letters: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
     const numbers: number[] = [8, 7, 6, 5, 4, 3, 2, 1]
     return(
         <Wrapper>
-            <NumWrapper style={{display: indexNum === 0 ? 'block' : 'none'}}>{numbers[indexLet]}</NumWrapper>
+            <NumWrapper style={{display: indexNum === 0 ? 'flex' : 'none', transform: `${store._isRotated ? 'rotate(180deg)' : ' transform: none'}`}}>{numbers[indexLet]}</NumWrapper>
             <div>
-                <CellWrapper onClick={() => {click(cell)}} style={{backgroundColor: selected ? 'red' : cell.color, }}>
+                <CellWrapper onClick={() => {click(cell)}} style={{backgroundColor: selected ? 'red' : cell.color, transform: `${store._isRotated ? 'rotate(180deg)' : ' transform: none'}`}}>
                     <AvalibleWrapper style={{display: cell.available ? 'block' : 'none'}} />
                     {cell?.figure?.logo && <FigureLogo src={cell.figure.logo} />}
                 </CellWrapper>
-                <LetWrapper style={{display: indexLet === 7 ? 'block' : 'none'}}>{letters[indexNum]}</LetWrapper>
+                <LetWrapper style={{display: indexLet === 7 ? 'flex' : 'none', transform: `${store._isRotated ? 'rotate(180deg)' : ' transform: none'}`}}>{letters[indexNum]}</LetWrapper>
             </div>
         </Wrapper>
         
     )
-}
+})
 const LetWrapper = styled.div`
-    display: block;
-    font-size: 22px;
+    justify-content: center;
+    font-size: calc(10px + 0.7vw);
     margin-top: 5px;
+    color: white;
 `
 const NumWrapper = styled.div`
-    display: block;
-    font-size: 22px;
+    align-items: center;
+    font-size: calc(10px + 0.7vw);
     margin-right: 15px;
+    color: white;
 `
 
 const Wrapper = styled.div`
     display: flex;
+    justify-content: space-between;
 `
 
 const AvalibleWrapper = styled.div`
@@ -50,8 +55,8 @@ const AvalibleWrapper = styled.div`
 `
 
 const CellWrapper = styled.div`
-    width: 100px;
-    height: 100px;
+    width: 5vw;
+    height: 5vw;
     display: flex;
     justify-content: center;    
     align-items: center;
@@ -59,8 +64,8 @@ const CellWrapper = styled.div`
 
 const FigureLogo = styled.img`
     z-index: 0;
-    width: 100px;
-    height: 100px;
+    width: 5vw;
+    height: 5vw;
 `
 
 export default CellComponent
