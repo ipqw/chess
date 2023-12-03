@@ -9,7 +9,6 @@ const BoardComponent: FC = observer(() => {
     const [isRotated, setIsRotated] = useState(false)
     useEffect(() => {
         store.restartBoard()
-        store.doMove('d2-d4')
     }, [])
 
     useEffect(() => {
