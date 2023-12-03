@@ -25,7 +25,7 @@ export class Board {
         }
     }
 
-    public getCell(x: number, y: number): Cell{
+    public getCell = (x: number, y: number): Cell => {
         return this.cells[y][x]
     }
 

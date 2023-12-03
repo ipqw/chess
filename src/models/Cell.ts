@@ -65,7 +65,6 @@ export class Cell{
             }
 
             // взятие на проходе
-
             if(this.figure.color === Colors.WHITE){
                 if(this.figure.name === FigureNames.PAWN && store.enPassant && !target.figure){
                     store.board.getCell(target.y+1, target.x).figure?.deleteFigure()
@@ -93,8 +92,8 @@ export class Cell{
             store.increaseMoveCounter()
             store.checkAttackedCellsByWhite()
             store.checkAttackedCellsByBlack()
+
             // проверка шаха
-            
             store.attackedCellsByBlack.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.WHITE}) ? (checkStore.setIsCheckWhite(true), checkStore.increaseCheckCounterWhite()) : (checkStore.setIsCheckWhite(false), checkStore.resetCheckCounterWhite())
             store.attackedCellsByWhite.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.BLACK}) ? (checkStore.setIsCheckBlack(true), checkStore.increaseCheckCounterBlack()) : (checkStore.setIsCheckBlack(false), checkStore.resetCheckCounterBlack())
             

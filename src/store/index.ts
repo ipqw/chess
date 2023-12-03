@@ -30,13 +30,10 @@ class Storage {
         this._board.initCells()
         this._board.addFigures()
     }
-    
-
     _turn: Colors = Colors.WHITE
     get turn(){
         return this._turn
     }
-    
     _selectedCell: Cell | null = null
     get selectedCell(){
         return this._selectedCell
@@ -170,7 +167,23 @@ class Storage {
             console.log(this.win)
         }
     }
-}   
+    
+    doMove = (move: string) => {
+        const words: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+        const numbers: number[][] = [[1, 7], [2, 6], [3, 5], [4, 4], [5, 3], [6, 2], [7, 1], [8, 0]]
+        const cells: string[] = move.split('-')
+        const firstConvertedNumber: number[] | undefined = numbers.find((el: any) => el[0] === Number(cells[0][1]))
+        const firstConvertedWord: number = words.indexOf(cells[0][0])
 
+        const secondConvertedNumber: number[] | undefined = numbers.find((el: any) => el[0] === Number(cells[1][1]))
+        const secondConvertedWord: number = words.indexOf(cells[1][0])
+
+        const firstCell: Cell = this.board?.getCell(firstConvertedNumber !== undefined ? firstConvertedNumber[1] : -1, firstConvertedWord)
+        const secondCell: Cell = this.board?.getCell(secondConvertedNumber !== undefined ? secondConvertedNumber[1] : -1, secondConvertedWord)
+        firstCell.moveFigure(secondCell)
+        this.checkAttackedCellsByWhite()
+        this.checkAttackedCellsByBlack()
+    }
+}
 
 export const store = new Storage()

@@ -18,7 +18,6 @@ const CellComponent: FC<CellProps> = observer(({cell, selected, click, indexNum,
 
     useEffect(() => {
         setIsRotated(store.isRotated)
-        console.log(isRotated)
     }, [store.isRotated])
     return(
         <Wrapper>
@@ -31,7 +30,6 @@ const CellComponent: FC<CellProps> = observer(({cell, selected, click, indexNum,
                 <LetWrapper style={{display: indexLet === 7 ? 'flex' : 'none', transform: `rotate(${isRotated ? '180deg' : '0deg'})`}}>{letters[indexNum]}</LetWrapper>
             </div>
         </Wrapper>
-        
     )
 })
 const LetWrapper = styled.div`

@@ -1,27 +1,40 @@
 import { observer } from "mobx-react";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import styled from "styled-components";
 import BoardComponent from "../components/BoardComponent";
 import { store } from "../store";
+import { serverStore } from "../store/server";
+import { useNavigate, useParams } from "react-router-dom";
 
 const GamePage: FC = observer(() => {
+    const { id } = useParams()
+    const navigate = useNavigate()
+    useEffect(() => {
+        serverStore.joinGame(id || 'null')
+        store.rotateBoard(store.isRotated)
+    }, [])
+    useEffect(() => {
+        if(serverStore.status !== null){
+            serverStore.status ? '' : navigate('/')
+        }
+    }, [serverStore.status])
     return(
         <Wrapper>
             <BoardComponent />
             <BoardSettings>
-                <TurnBoardBtn onClick={() => store.rotateBoard()}>Перевернуть доску</TurnBoardBtn>
+                <TurnBoardBtn onClick={() => store.rotateBoard(!store.isRotated)}>Перевернуть доску</TurnBoardBtn>
             </BoardSettings>
         </Wrapper>
     )
 })
 
-const BoardSettings = styled.div`
+export const BoardSettings = styled.div`
     
 `
-const TurnBoardBtn = styled.a`
+export const TurnBoardBtn = styled.a`
     cursor: pointer;
 `
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
     display: flex;
     justify-content: space-around;
     margin: 20px 0px;

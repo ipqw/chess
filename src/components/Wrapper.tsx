@@ -1,8 +1,13 @@
 import { observer } from "mobx-react";
 import styled from "styled-components";
 import Header from "./Header";
+import { useEffect } from "react";
+import { serverStore } from "../store/server";
 
 const WrapperApp = observer(({children}: {children: any}) => {
+    useEffect(() => {
+        serverStore.getIp()
+    }, [])
     return(
         <Wrapper>
             <Header />

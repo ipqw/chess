@@ -6,13 +6,16 @@ import { store } from '../store'
 import { observer } from 'mobx-react'
 
 const BoardComponent: FC = observer(() => {
-
     const [isRotated, setIsRotated] = useState(false)
+    useEffect(() => {
+        store.restartBoard()
+        store.doMove('d2-d4')
+    }, [])
 
     useEffect(() => {
         setIsRotated(store.isRotated)
     }, [store.isRotated])
-
+    
     const click = (cell: Cell) => {
         if(store.selectedCell !== null && store.selectedCell.figure?.color === store.turn){
             store.selectedCell.moveFigure(cell)
@@ -20,17 +23,14 @@ const BoardComponent: FC = observer(() => {
             store.checkAttackedCellsByWhite()
             store.checkAttackedCellsByBlack()
         }
-        else{   
+        else{
             cell.figure ? store.setSelectedCell(cell) : ''
             store.selectedCell?.figure?.getAvalibleCells().map((cellq: Cell) => {
                 cellq.available = true
             })
-
             store.resetAvalibleCells()
         }
-
     }
-    
     return(
         <BoardWrapper style={{transform: `rotate(${isRotated ? '180deg' : '0deg'})`}}>
             {store.board?.cells.map((row, indexNum) => {

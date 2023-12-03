@@ -1,7 +1,5 @@
-import { useEffect } from 'react'
 import './App.css'
 import { observer } from 'mobx-react'
-import { store } from './store'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainPage from './pages/main'
 import GamePage from './pages/game'
@@ -9,11 +7,10 @@ import WrapperApp from './components/Wrapper'
 import ErrorPage from './pages/errorPage'
 import RegistrationPage from './pages/registration';
 import LoginPage from './pages/login';
+import LocalGamePage from './pages/localGame';
+import FindGame from './pages/findGame';
 
 const App = observer(() => {
-  const restart = () => {
-    store.restartBoard()
-  }
   const router = createBrowserRouter([
     {
       path: "/",
@@ -31,15 +28,23 @@ const App = observer(() => {
       errorElement: <ErrorPage />
     },
     {
-      path: "/game/:gameId",
+      path: "/game/:id",
       element: <GamePage/>,
+      errorElement: <ErrorPage />
+    },
+    {
+      path: "/localgame",
+      element: <LocalGamePage/>,
+      errorElement: <ErrorPage />
+    },
+    {
+      path: "/find",
+      element: <FindGame/>,
       errorElement: <ErrorPage />
     },
   ]);
   
-  useEffect(() => {
-    restart()
-  }, [])
+  
   return (
     <WrapperApp>
        <RouterProvider router={router}/>
