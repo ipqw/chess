@@ -9,6 +9,10 @@ class Storage {
     constructor(){
         makeAutoObservable(this)
     }
+    _server: string = 'http://localhost:5000/api/'
+    get server(){
+        return this._server
+    }
     win: Colors | null = null
     _board: Board = new Board
     get board(){
@@ -18,8 +22,8 @@ class Storage {
     get isRotated(){
         return this._isRotated
     }
-    rotateBoard = () => {
-        this._isRotated = !this._isRotated
+    rotateBoard = (rotate: boolean) => {
+        this._isRotated = rotate
     }
     restartBoard(){
         this._board = new Board
@@ -161,6 +165,9 @@ class Storage {
         if(checkStore.isCheckWhite && this.attackedCellsByBlack.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.WHITE})?.figure?.getRetreatCells().length === 0
         && !this._attackedCellsByWhite.includes(figureBlack.cell)){
             this.win = Colors.BLACK
+        }
+        if(this.win){
+            console.log(this.win)
         }
     }
 }   

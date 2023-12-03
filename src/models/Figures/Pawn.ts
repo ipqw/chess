@@ -15,6 +15,13 @@ export class Pawn extends Figure {
         const availableCellsWhite: Cell[] = []
 
         const availableCellsBlack: Cell[] = []
+        if(this.color !== store.turn){
+            this.cell.y+1 < 8 && this.cell.x+1 < 8 ? availableCellsBlack.push(store.board.getCell(this.cell.y+1, this.cell.x+1)) : ''
+            this.cell.y+1 < 8 && this.cell.x-1 >= 0? availableCellsBlack.push(store.board.getCell(this.cell.y+1, this.cell.x-1)) : ''
+            this.cell.y-1 >= 0 && this.cell.x+1 < 8 ? availableCellsWhite.push(store.board.getCell(this.cell.y-1, this.cell.x+1)) : ''
+            this.cell.y-1 >= 0 && this.cell.x-1 >= 0 ? availableCellsWhite.push(store.board.getCell(this.cell.y-1, this.cell.x-1)) : ''
+            return this.color === Colors.WHITE ? availableCellsWhite : availableCellsBlack
+        }
 
         // двойной ход
         if(this.color === Colors.WHITE){
@@ -53,12 +60,7 @@ export class Pawn extends Figure {
             availableCellsWhite.push(store.board.getCell(this.cell.y-1, this.cell.x-1))
         }
 
-        if(this.color !== store.turn){
-            this.cell.y+1 < 8 && this.cell.x+1 < 8 ? availableCellsBlack.push(store.board.getCell(this.cell.y+1, this.cell.x+1)) : ''
-            this.cell.y+1 < 8 && this.cell.x-1 >= 0? availableCellsBlack.push(store.board.getCell(this.cell.y+1, this.cell.x-1)) : ''
-            this.cell.y-1 >= 0 && this.cell.x+1 < 8 ? availableCellsWhite.push(store.board.getCell(this.cell.y-1, this.cell.x+1)) : ''
-            this.cell.y-1 >= 0 && this.cell.x-1 >= 0 ? availableCellsWhite.push(store.board.getCell(this.cell.y-1, this.cell.x-1)) : ''
-        }
+        
         
         return this.color === Colors.WHITE ? availableCellsWhite : availableCellsBlack
     }

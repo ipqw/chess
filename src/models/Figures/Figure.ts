@@ -2,7 +2,7 @@ import logo from '../../../src/assets/bk.png'
 import { Colors } from '../Colors'
 import { Cell } from '../Cell'
 import { store } from '../../store'
-import {checkStore } from '../../store/check'
+import { checkStore } from '../../store/check'
 
 export enum FigureNames {
     FIGURE = 'Фигура',

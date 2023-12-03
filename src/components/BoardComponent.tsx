@@ -11,7 +11,6 @@ const BoardComponent: FC = observer(() => {
 
     useEffect(() => {
         setIsRotated(store.isRotated)
-        console.log(isRotated)
     }, [store.isRotated])
 
     const click = (cell: Cell) => {
