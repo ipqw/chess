@@ -46,6 +46,13 @@ class Storage {
     setStatus = (status: boolean | null) => {
         this._status = status
     }
+    _allGames: Game[] = []
+    get allGames(){
+        return this._allGames
+    }
+    setAllGames = (el: Game[]) => {
+        this._allGames = el
+    }
     joinGame = async (id: string) => {
         await this.getIp()
         const response: Game| void = await fetch(`${store.server}game/join`, {
@@ -74,6 +81,22 @@ class Storage {
             this.setStatus(false)
             console.error(`Error: ${err}`)
         })
+        return response
+    }
+    getAllGames = async () => {
+        const response: Game| void = await fetch(`${store.server}game`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        .then((res) => {
+            return res.json();
+        })
+        .then((res) => {
+            this.setAllGames(res)
+        })
+        
         return response
     }
 }
