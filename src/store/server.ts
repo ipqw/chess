@@ -66,6 +66,9 @@ class Storage {
                 this.setStatus(true)
             }
             this.setGame(res)
+            this.game?.moves.map((el: string) => {
+                store.doMove(el)
+            })
         })
         .catch((err: Error) => {
             this.setStatus(false)
