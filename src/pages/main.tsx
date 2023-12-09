@@ -11,6 +11,7 @@ const MainPage: FC = observer(() => {
     const navigate = useNavigate()
     useEffect(() => {
         serverStore.setStatus(null)
+        serverStore.setGame(null)
     }, [])
     const [open, setOpen] = useState(false);
 

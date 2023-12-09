@@ -6,7 +6,8 @@ import { serverStore } from "../store/server";
 
 const WrapperApp = observer(({children}: {children: any}) => {
     useEffect(() => {
-        serverStore.getIp()
+        // вернуть после отладки
+        // serverStore.getIp()
     }, [])
     return(
         <Wrapper>

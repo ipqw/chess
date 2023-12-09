@@ -1,5 +1,6 @@
 import { store } from "../store"
 import { checkStore } from "../store/check"
+import { serverStore } from "../store/server"
 import { Board } from "./Board"
 import { Colors } from "./Colors"
 import { Figure, FigureNames } from "./Figures/Figure"
@@ -27,10 +28,17 @@ export class Cell{
         return this.figure === null ? true : false
     }
 
+    public moveFigureWithoutConditions(target: Cell){
+        this.figure?.moveFigure(target)
+        target.figure = this.figure
+        this.figure = null
+    }
+
     public moveFigure(target: Cell){
-        if(this.figure?.canMove(target)) {
+        if(this.figure?.canMove(target) && (!serverStore.game || serverStore.color === store.turn )) {
             store.setPreviousFigure(this.figure)
             this.figure?.moveFigure(target)
+
 
             // рокировка
             // черные
@@ -85,7 +93,7 @@ export class Cell{
 
             this.figure.moveCounter++
             
-            this.figure.color === Colors.WHITE 
+            this.figure.color === Colors.WHITE
             ? this.figure.name === FigureNames.PAWN  && this.figure.cell.y === 0 ? '' : target.figure = this.figure
             : this.figure.name === FigureNames.PAWN  && this.figure.cell.y === 7 ? '' : target.figure = this.figure
             this.figure = null
@@ -111,6 +119,13 @@ export class Cell{
                 return
             }
             
+            store.addMove(store.convertCellsToMove(this, target))
+
+            // отправка хода на сервер в онлайн игре
+            if(serverStore.game && serverStore.color === store.turn){
+                serverStore.sendMove(store.moves[store.moves.length-1])
+            }
+            // смена хода
             store.turn === Colors.WHITE ? checkStore.isCheckWhite ? '' : (store.changeTurn(), store.setPreviousFigureEnPassant(store.previousFigure)) : checkStore.isCheckBlack ? '' : (store.changeTurn(), store.setPreviousFigureEnPassant(store.previousFigure))
         }
     }

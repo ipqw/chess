@@ -3,10 +3,12 @@ import { FC, useEffect } from "react";
 import { BoardSettings, TurnBoardBtn, Wrapper } from "./game";
 import BoardComponent from "../components/BoardComponent";
 import { store } from "../store";
+import { serverStore } from "../store/server";
 
 const LocalGamePage: FC = observer(() => {
     useEffect(() => {
         store.rotateBoard(store.isRotated)
+        serverStore.setGame(null)
     }, [])
     return(
         <Wrapper>

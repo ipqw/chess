@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import { Cell } from '../models/Cell'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useReducer, useState } from 'react'
 import { observer } from 'mobx-react'
 import { store } from '../store'
+import { serverStore } from '../store/server'
 interface CellProps {
     cell: Cell,
     selected: boolean,
@@ -15,6 +16,12 @@ const CellComponent: FC<CellProps> = observer(({cell, selected, click, indexNum,
     const letters: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
     const numbers: number[] = [8, 7, 6, 5, 4, 3, 2, 1]
     const [isRotated, setIsRotated] = useState(false)
+
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
+
+    useEffect(() => {
+        forceUpdate()
+    }, [serverStore.game?.moves])
 
     useEffect(() => {
         setIsRotated(store.isRotated)

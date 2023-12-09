@@ -7,13 +7,14 @@ import GamePreview from "../components/GamePreviewComponent";
 const FindGame: FC = observer(() => {
     useEffect(() => {
         serverStore.getAllGames()
-    })
+        serverStore.setGame(null)
+    }, [])
     return(
         <Wrapper>
             <Text>Доступные игры</Text>
             {serverStore.allGames.map((el: Game) => {
                 return(
-                    <GamePreview name={el.name} id={el.id} counter={el.counter}/>
+                    <GamePreview key={el.id} name={el.name} id={el.id} counter={el.counter}/>
                 )
             })}
         </Wrapper>

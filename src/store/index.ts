@@ -4,10 +4,27 @@ import { Colors } from '../models/Colors'
 import { Cell } from '../models/Cell'
 import { Figure, FigureNames } from '../models/Figures/Figure'
 import { checkStore } from './check'
+import { serverStore } from './server'
 
 class Storage {
     constructor(){
         makeAutoObservable(this)
+    }
+    async setIsDev(el:boolean){
+        el ? sessionStorage.setItem('ip', '0') : await serverStore.getIp()
+    }
+    _moves: string[] = []
+    get moves(){
+        return this._moves
+    }
+    addMove = (move: string) => {
+        this._moves.push(move)
+    }
+    clearMoves = () => {
+        this._moves = []
+    }
+    returnMove = () => {
+        this._moves.pop()
     }
     _server: string = 'http://localhost:5000/api/'
     get server(){
@@ -167,8 +184,7 @@ class Storage {
             console.log(this.win)
         }
     }
-    
-    doMove = (move: string) => {
+    convertMoveToCells = (move: string) => {
         const words: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
         const numbers: number[][] = [[1, 7], [2, 6], [3, 5], [4, 4], [5, 3], [6, 2], [7, 1], [8, 0]]
         const cells: string[] = move.split('-')
@@ -177,10 +193,33 @@ class Storage {
 
         const secondConvertedNumber: number[] | undefined = numbers.find((el: any) => el[0] === Number(cells[1][1]))
         const secondConvertedWord: number = words.indexOf(cells[1][0])
-
         const firstCell: Cell = this.board?.getCell(firstConvertedNumber !== undefined ? firstConvertedNumber[1] : -1, firstConvertedWord)
         const secondCell: Cell = this.board?.getCell(secondConvertedNumber !== undefined ? secondConvertedNumber[1] : -1, secondConvertedWord)
+        return [firstCell, secondCell]
+    }
+    convertCellsToMove = (firstCell: Cell, secondCell: Cell) => {
+        const words: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+        const numbers: number[][] = [[1, 7], [2, 6], [3, 5], [4, 4], [5, 3], [6, 2], [7, 1], [8, 0]]
+
+        const firstConvertedNumber: number[] | undefined = numbers.find((el: any) => el[1] === firstCell.y)
+        const firstConvertedWord: string = words[firstCell.x]
+
+        const secondConvertedNumber: number[] | undefined = numbers.find((el: any) => el[1] === secondCell.y)
+        const secondConvertedWord: string = words[secondCell.x]
+
+        const move: string = `${firstConvertedWord}${firstConvertedNumber ? firstConvertedNumber[0] : 0}-${secondConvertedWord}${secondConvertedNumber ? secondConvertedNumber[0] : 0}`
+        return move
+    }
+    
+    doMove = (move: string) => {
+        const [firstCell, secondCell] = this.convertMoveToCells(move)
         firstCell.moveFigure(secondCell)
+        this.checkAttackedCellsByWhite()
+        this.checkAttackedCellsByBlack()
+    }
+    doMoveWithoutConditions = (move: string) => {
+        const [firstCell, secondCell] = this.convertMoveToCells(move)
+        firstCell.moveFigureWithoutConditions(secondCell)
         this.checkAttackedCellsByWhite()
         this.checkAttackedCellsByBlack()
     }

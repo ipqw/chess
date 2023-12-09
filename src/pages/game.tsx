@@ -18,6 +18,15 @@ const GamePage: FC = observer(() => {
             serverStore.status ? '' : navigate('/')
         }
     }, [serverStore.status])
+
+    // обновление игры каждую секунду
+    useEffect(() => {
+        const timer = setInterval(() => {
+            serverStore.updateGame(id || '0')
+        }, 100);
+        
+        return () => clearInterval(timer);
+    })
     return(
         <Wrapper>
             <BoardComponent />
