@@ -76,11 +76,12 @@ class Storage {
             this.setGame(res)
             store.clearMoves()
             store.restartBoard()
+            store.setTurn(this.game?.ownerColor ? Colors.WHITE : Colors.BLACK)
             this.game?.moves.map((el: string) => {
                 store.doMoveWithoutConditions(el)
-                store.changeTurn()
                 store.addMove(el)
-            })
+                store.changeTurn()
+            })            
             if(this.game?.members[0] === sessionStorage.getItem('ip')){
                 this.setColor(this?.game.ownerColor ? Colors.WHITE : Colors.BLACK)
             }

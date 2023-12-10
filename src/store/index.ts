@@ -26,7 +26,7 @@ class Storage {
     returnMove = () => {
         this._moves.pop()
     }
-    _server: string = 'http://localhost:5000/api/'
+    _server: string = 'http://localhost:6425/api/'
     get server(){
         return this._server
     }
@@ -51,6 +51,9 @@ class Storage {
     get turn(){
         return this._turn
     }
+    setTurn = (el: Colors) => {
+        this._turn = el
+    }   
     _selectedCell: Cell | null = null
     get selectedCell(){
         return this._selectedCell
