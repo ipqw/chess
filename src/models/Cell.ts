@@ -1,4 +1,4 @@
-import { store } from "../store"
+import { MoveTypes, store } from "../store"
 import { checkStore } from "../store/check"
 import { serverStore } from "../store/server"
 import { Board } from "./Board"
@@ -38,7 +38,7 @@ export class Cell{
         if(this.figure?.canMove(target) && (!serverStore.game || serverStore.color === store.turn )) {
             store.setPreviousFigure(this.figure)
             this.figure?.moveFigure(target)
-
+            store.setTypePreviousMove(MoveTypes.BASIC)
 
             // рокировка
             // черные
@@ -46,49 +46,57 @@ export class Cell{
                 store.board.getCell(0, 7).figure?.moveWithoutChangeTurn(store.board.getCell(0, 5))
                 store.board.getCell(0, 5).figure = store.board.getCell(0, 7).figure
                 store.board.getCell(0, 7).figure = null
+                store.setTypePreviousMove(MoveTypes.CASTLING)
             }
             if(this.figure.name === FigureNames.KING && target === store.board.getCell(0, 2) && this.figure.moveCounter === 0){
                 store.board.getCell(0, 0).figure?.moveWithoutChangeTurn(store.board.getCell(0, 3))
                 store.board.getCell(0, 3).figure = store.board.getCell(0, 0).figure
                 store.board.getCell(0, 0).figure = null
+                store.setTypePreviousMove(MoveTypes.CASTLING)
             }
             // белые
             if(this.figure.name === FigureNames.KING && target === store.board.getCell(7, 6) && this.figure.moveCounter === 0){
                 store.board.getCell(7, 7).figure?.moveWithoutChangeTurn(store.board.getCell(7, 5))
                 store.board.getCell(7, 5).figure = store.board.getCell(7, 7).figure
                 store.board.getCell(7, 7).figure = null
+                store.setTypePreviousMove(MoveTypes.CASTLING)
             }
             if(this.figure.name === FigureNames.KING && target === store.board.getCell(7, 2) && this.figure.moveCounter === 0){
                 store.board.getCell(7, 0).figure?.moveWithoutChangeTurn(store.board.getCell(7, 3))
                 store.board.getCell(7, 3).figure = store.board.getCell(7, 0).figure
                 store.board.getCell(7, 0).figure = null
+                store.setTypePreviousMove(MoveTypes.CASTLING)
             }
 
             // превращение пешки
             if(this.figure.name === FigureNames.PAWN && this.figure.color === Colors.WHITE && this.figure.cell.y === 0){
                 target.figure = new Queen(Colors.WHITE, target)
+                store.setTypePreviousMove(MoveTypes.TRANSFORMPAWN)
             }
             if(this.figure.name === FigureNames.PAWN && this.figure.color === Colors.BLACK && this.figure.cell.y === 7){
                 target.figure = new Queen(Colors.BLACK, target)
+                store.setTypePreviousMove(MoveTypes.TRANSFORMPAWN)
             }
 
             // взятие на проходе
             if(this.figure.color === Colors.WHITE){
-                if(this.figure.name === FigureNames.PAWN && store.enPassant && !target.figure){
+                if(this.figure.name === FigureNames.PAWN && store.enPassant && !target.figure && store.board.getCell(target.y+1, target.x).figure?.name === FigureNames.PAWN && store.board.getCell(target.y+1, target.x).figure?.color === Colors.BLACK){
                     store.board.getCell(target.y+1, target.x).figure?.deleteFigure()
+                    store.setTypePreviousMove(MoveTypes.ENPASSANT)
                 }
             }
             else{
-                if(this.figure.name === FigureNames.PAWN && store.enPassant && !target.figure){
+                if(this.figure.name === FigureNames.PAWN && store.enPassant && !target.figure && store.board.getCell(target.y-1, target.x).figure?.name === FigureNames.PAWN && store.board.getCell(target.y-1, target.x).figure?.color === Colors.WHITE){
                     store.board.getCell(target.y-1, target.x).figure?.deleteFigure()
+                    store.setTypePreviousMove(MoveTypes.ENPASSANT)
                 }
             }
             
             // проверка двойного хода пешки
             if(this.figure.name === FigureNames.PAWN){
                 this.figure.color === Colors.WHITE 
-                ? this.y - 2 === target.y ? store.setEnPassant(true) : store.setEnPassant(false)
-                : this.y + 2 === target.y ? store.setEnPassant(true) : store.setEnPassant(false)
+                ? this.y - 2 === target.y ? (store.setEnPassant(true), store.setTypePreviousMove(MoveTypes.DOUBLEPAWN)) : store.setEnPassant(false)
+                : this.y + 2 === target.y ? (store.setEnPassant(true), store.setTypePreviousMove(MoveTypes.DOUBLEPAWN)) : store.setEnPassant(false)
             }
 
             this.figure.moveCounter++
@@ -119,7 +127,7 @@ export class Cell{
                 return
             }
             
-            store.addMove(store.convertCellsToMove(this, target))
+            store.addMove(store.convertCellsToMove(this, target).concat('-', store.typePreviousMove))
 
             // отправка хода на сервер в онлайн игре
             if(serverStore.game && serverStore.color === store.turn){

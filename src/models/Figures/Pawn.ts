@@ -44,19 +44,19 @@ export class Pawn extends Figure {
 
 
         // взятие на проходе
-        if(store.enPassant && store.turn === Colors.BLACK && store.previousFigureEnPassant?.cell.y === this.cell.y && store.previousFigureEnPassant?.cell.x === this.cell.x+1){
+        if(store.enPassant && store.turn === Colors.BLACK && store.previousFigureEnPassant?.cell.y === this.cell.y && store.previousFigureEnPassant?.cell.x === this.cell.x+1 && store.previousFigureEnPassant?.name === FigureNames.PAWN){
             availableCellsBlack.push(store.board.getCell(this.cell.y+1, this.cell.x+1))
         }
 
-        if(store.enPassant && store.turn === Colors.BLACK && store.previousFigureEnPassant?.cell.y === this.cell.y && store.previousFigureEnPassant?.cell.x === this.cell.x-1){
+        if(store.enPassant && store.turn === Colors.BLACK && store.previousFigureEnPassant?.cell.y === this.cell.y && store.previousFigureEnPassant?.cell.x === this.cell.x-1 && store.previousFigureEnPassant?.name === FigureNames.PAWN){
             availableCellsBlack.push(store.board.getCell(this.cell.y+1, this.cell.x-1))
         }
 
-        if(store.enPassant && store.turn === Colors.WHITE && store.previousFigureEnPassant?.cell.y === this.cell.y && store.previousFigureEnPassant?.cell.x === this.cell.x+1){
+        if(store.enPassant && store.turn === Colors.WHITE && store.previousFigureEnPassant?.cell.y === this.cell.y && store.previousFigureEnPassant?.cell.x === this.cell.x+1 && store.previousFigureEnPassant?.name === FigureNames.PAWN){
             availableCellsWhite.push(store.board.getCell(this.cell.y-1, this.cell.x+1))
         }
 
-        if(store.enPassant && store.turn === Colors.WHITE && store.previousFigureEnPassant?.cell.y === this.cell.y && store.previousFigureEnPassant?.cell.x === this.cell.x-1){
+        if(store.enPassant && store.turn === Colors.WHITE && store.previousFigureEnPassant?.cell.y === this.cell.y && store.previousFigureEnPassant?.cell.x === this.cell.x-1 && store.previousFigureEnPassant?.name === FigureNames.PAWN){
             availableCellsWhite.push(store.board.getCell(this.cell.y-1, this.cell.x-1))
         }
 

@@ -1,10 +1,18 @@
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, toJS } from 'mobx'
 import { Board } from '../models/Board'
 import { Colors } from '../models/Colors'
 import { Cell } from '../models/Cell'
 import { Figure, FigureNames } from '../models/Figures/Figure'
 import { checkStore } from './check'
 import { serverStore } from './server'
+
+export enum MoveTypes {
+    ENPASSANT = 'enpassant',
+    BASIC = 'basic',
+    CASTLING = 'castling',
+    DOUBLEPAWN = 'doublepawn',
+    TRANSFORMPAWN = 'transform' 
+}
 
 class Storage {
     constructor(){
@@ -22,6 +30,13 @@ class Storage {
     }
     clearMoves = () => {
         this._moves = []
+    }
+    _typePreviousMove: MoveTypes | string = MoveTypes.BASIC
+    get typePreviousMove(){
+        return this._typePreviousMove
+    }
+    setTypePreviousMove = (type: MoveTypes | string) => {
+        this._typePreviousMove = type
     }
     returnMove = () => {
         this._moves.pop()
@@ -198,6 +213,8 @@ class Storage {
         const secondConvertedWord: number = words.indexOf(cells[1][0])
         const firstCell: Cell = this.board?.getCell(firstConvertedNumber !== undefined ? firstConvertedNumber[1] : -1, firstConvertedWord)
         const secondCell: Cell = this.board?.getCell(secondConvertedNumber !== undefined ? secondConvertedNumber[1] : -1, secondConvertedWord)
+
+        store.setTypePreviousMove(cells[2])
         return [firstCell, secondCell]
     }
     convertCellsToMove = (firstCell: Cell, secondCell: Cell) => {
@@ -222,7 +239,21 @@ class Storage {
     }
     doMoveWithoutConditions = (move: string) => {
         const [firstCell, secondCell] = this.convertMoveToCells(move)
+
         firstCell.moveFigureWithoutConditions(secondCell)
+        if(this.typePreviousMove === MoveTypes.DOUBLEPAWN){
+            this.setEnPassant(true)
+            store.setPreviousFigureEnPassant(secondCell.figure)
+        }
+        else{
+            this.setEnPassant(false)
+        }
+        if(this.typePreviousMove === MoveTypes.ENPASSANT){
+            this.turn === Colors.WHITE
+            ? store.board.getCell(secondCell.y+1, secondCell.x).figure?.deleteFigure()
+            : store.board.getCell(secondCell.y-1, secondCell.x).figure?.deleteFigure()
+        }
+        
         this.checkAttackedCellsByWhite()
         this.checkAttackedCellsByBlack()
     }

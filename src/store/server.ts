@@ -53,7 +53,6 @@ class Storage {
         this._allGames = el
     }
     joinGame = async (id: string) => {
-        
         // вернуть после отладки
         // await this.getIp()
         const response: Game| void = await fetch(`${store.server}game/join`, {
@@ -76,7 +75,7 @@ class Storage {
             this.setGame(res)
             store.clearMoves()
             store.restartBoard()
-            store.setTurn(this.game?.ownerColor ? Colors.WHITE : Colors.BLACK)
+            store.setTurn(Colors.WHITE)
             this.game?.moves.map((el: string) => {
                 store.doMoveWithoutConditions(el)
                 store.addMove(el)
@@ -151,7 +150,6 @@ class Storage {
                 const cells: string[] = move.split('-')
                 store.doMoveWithoutConditions(`${cells[1]}-${cells[0]}`)
                 store.changeTurn()
-                store.setEnPassant(false)
                 store.returnMove()
             }
             return res
