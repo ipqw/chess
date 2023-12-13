@@ -126,6 +126,9 @@ class Storage {
                 store.addMove(res.moves[res.moves.length-1])
                 store.changeTurn()
             }
+            if(res.winner !== null){
+                store.setWin(res.winner)
+            }
             this.setGame(res)
             return res
         })
@@ -137,7 +140,7 @@ class Storage {
     sendMove = async (move: string) => {
         const response = await fetch(`${store.server}game/${this.game?.id}`, {
             method: 'POST',
-            body: JSON.stringify({move}),
+            body: JSON.stringify({move, winner: store.win}),
             headers: {
                 "Content-Type": "application/json",
             },

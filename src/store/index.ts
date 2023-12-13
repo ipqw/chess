@@ -1,10 +1,10 @@
-import { makeAutoObservable, toJS } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 import { Board } from '../models/Board'
 import { Colors } from '../models/Colors'
 import { Cell } from '../models/Cell'
 import { Figure, FigureNames } from '../models/Figures/Figure'
-import { checkStore } from './check'
 import { serverStore } from './server'
+import { Queen } from '../models/Figures/Queen'
 
 export enum MoveTypes {
     ENPASSANT = 'enpassant',
@@ -45,7 +45,13 @@ class Storage {
     get server(){
         return this._server
     }
-    win: Colors | null = null
+    _win: Colors | null = null
+    get win(){
+        return this._win
+    }
+    setWin = (color: Colors | null) => {
+        this._win = color
+    }
     _board: Board = new Board
     get board(){
         return this._board
@@ -58,6 +64,7 @@ class Storage {
         this._isRotated = rotate
     }
     restartBoard(){
+        this.setWin(null)
         this._board = new Board
         this._board.initCells()
         this._board.addFigures()
@@ -186,21 +193,6 @@ class Storage {
         this.checkAttackedCellsByWhite()
         this.checkAttackedCellsByBlack()
         this.turn === Colors.WHITE ? this._turn = Colors.BLACK : this._turn = Colors.WHITE
-
-        const figureWhite: any = this.getWhiteAttackingFigure() 
-        if(checkStore.isCheckBlack && this.attackedCellsByWhite.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.BLACK})?.figure?.getRetreatCells().length === 0
-        && !this.attackedCellsByBlack.includes(figureWhite.cell)){
-            this.win = Colors.WHITE
-        }
-        
-        const figureBlack: any = this.getBlackAttackingFigure() 
-        if(checkStore.isCheckWhite && this.attackedCellsByBlack.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.WHITE})?.figure?.getRetreatCells().length === 0
-        && !this._attackedCellsByWhite.includes(figureBlack.cell)){
-            this.win = Colors.BLACK
-        }
-        if(this.win){
-            console.log(this.win)
-        }
     }
     convertMoveToCells = (move: string) => {
         const words: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
@@ -252,6 +244,14 @@ class Storage {
             this.turn === Colors.WHITE
             ? store.board.getCell(secondCell.y+1, secondCell.x).figure?.deleteFigure()
             : store.board.getCell(secondCell.y-1, secondCell.x).figure?.deleteFigure()
+        }
+        if(this.typePreviousMove === MoveTypes.TRANSFORMPAWN){
+            secondCell.figure = new Queen(this.turn, secondCell)
+        }
+        if(this.typePreviousMove === MoveTypes.CASTLING){
+            store.board.getCell(secondCell.y, secondCell.x+1).figure?.name === FigureNames.ROOK 
+            ? store.board.getCell(secondCell.y, secondCell.x+1).moveFigureWithoutConditions(store.board.getCell(secondCell.y, secondCell.x-1))
+            : store.board.getCell(secondCell.y, secondCell.x-2).moveFigureWithoutConditions(store.board.getCell(secondCell.y, secondCell.x+1))
         }
         
         this.checkAttackedCellsByWhite()

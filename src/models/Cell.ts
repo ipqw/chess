@@ -129,6 +129,18 @@ export class Cell{
             
             store.addMove(store.convertCellsToMove(this, target).concat('-', store.typePreviousMove))
 
+            const figureWhite: any = store.getWhiteAttackingFigure() 
+            if(checkStore.isCheckBlack && store.attackedCellsByWhite.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.BLACK})?.figure?.getRetreatCells().length === 0
+            && !store.attackedCellsByBlack.includes(figureWhite.cell)){
+                store.setWin(Colors.WHITE)
+            }
+            
+            const figureBlack: any = store.getBlackAttackingFigure()
+            if(checkStore.isCheckWhite && store.attackedCellsByBlack.find((el: Cell) => {return el.figure?.name === FigureNames.KING && el.figure.color === Colors.WHITE})?.figure?.getRetreatCells().length === 0
+            && !store._attackedCellsByWhite.includes(figureBlack.cell)){
+                store.setWin(Colors.BLACK)
+            }
+
             // отправка хода на сервер в онлайн игре
             if(serverStore.game && serverStore.color === store.turn){
                 serverStore.sendMove(store.moves[store.moves.length-1])
