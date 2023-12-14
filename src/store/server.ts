@@ -53,8 +53,7 @@ class Storage {
         this._allGames = el
     }
     joinGame = async (id: string) => {
-        // вернуть после отладки
-        // await this.getIp()
+        await this.getIp()
         const response: Game| void = await fetch(`${store.server}game/join`, {
             method: 'POST',
             body: JSON.stringify({id, ip: sessionStorage.getItem('ip')}),

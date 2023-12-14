@@ -35,7 +35,7 @@ export class Cell{
     }
 
     public moveFigure(target: Cell){
-        if(this.figure?.canMove(target) && (!serverStore.game || serverStore.color === store.turn )) {
+        if(this.figure?.canMove(target) && (!serverStore.game || serverStore.color === store.turn ) && store.win === null) {
             store.setPreviousFigure(this.figure)
             this.figure?.moveFigure(target)
             store.setTypePreviousMove(MoveTypes.BASIC)

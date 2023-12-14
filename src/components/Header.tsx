@@ -1,15 +1,12 @@
-import { Button } from "@mui/material";
 import { observer } from "mobx-react";
 import styled from "styled-components";
-import { store } from "../store";
+
 
 const Header = observer(() => {
     return(
         <Wrapper>
             <TitleDiv>
                 <Title href="/">Chess</Title>
-                <Button onClick={() => store.setIsDev(true)}>dev mode</Button>
-                <Button onClick={() => store.setIsDev(false)}>off dev mode</Button>
             </TitleDiv>
             <AccountDiv>
                 <AccountText href="/login">Войти</AccountText>
@@ -24,6 +21,7 @@ const AccountText = styled.a`
     margin: 0px 30px;
     color: #3692e7;
     cursor: pointer;
+    display: none;
 `
 const TitleDiv = styled.div`
     display: flex;

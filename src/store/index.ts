@@ -3,7 +3,6 @@ import { Board } from '../models/Board'
 import { Colors } from '../models/Colors'
 import { Cell } from '../models/Cell'
 import { Figure, FigureNames } from '../models/Figures/Figure'
-import { serverStore } from './server'
 import { Queen } from '../models/Figures/Queen'
 
 export enum MoveTypes {
@@ -17,9 +16,6 @@ export enum MoveTypes {
 class Storage {
     constructor(){
         makeAutoObservable(this)
-    }
-    async setIsDev(el:boolean){
-        el ? sessionStorage.setItem('ip', '0') : await serverStore.getIp()
     }
     _moves: string[] = []
     get moves(){
@@ -41,7 +37,7 @@ class Storage {
     returnMove = () => {
         this._moves.pop()
     }
-    _server: string = 'http://localhost:6425/api/'
+    _server: string = 'https://chess-server-2mn0.onrender.com/api/'
     get server(){
         return this._server
     }
