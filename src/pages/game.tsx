@@ -24,7 +24,7 @@ const GamePage: FC = observer(() => {
     useEffect(() => {
         const timer = setInterval(() => {
             serverStore.updateGame(id || '0')
-        }, 100);
+        }, 1000);
         
         return () => clearInterval(timer);
     })
