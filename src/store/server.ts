@@ -120,7 +120,8 @@ class Storage {
             return res.json();
         })
         .then((res) => {
-            if(res.moves.length !== store.moves.length){
+            if(res.moves.length > store.moves.length){
+                console.log(store.moves.length, res.moves.length)
                 store.doMoveWithoutConditions(res.moves[res.moves.length-1])
                 store.addMove(res.moves[res.moves.length-1])
                 store.changeTurn()
