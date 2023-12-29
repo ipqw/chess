@@ -23,6 +23,7 @@ class Storage {
     }
     addMove = (move: string) => {
         this._moves.push(move)
+        console.log(move)
     }
     clearMoves = () => {
         this._moves = []

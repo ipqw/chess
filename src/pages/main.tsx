@@ -56,10 +56,11 @@ const MainPage: FC = observer(() => {
                                             aria-labelledby="demo-radio-buttons-group-label"
                                             defaultValue="random"
                                             name="radio-buttons-group"
+                                            style={{display: 'flex', flexDirection: 'row', justifyContent: 'left', fontSize: 'calc(14px + 0.4vw)'}}
                                         >
-                                            <FormControlLabel onClick={() => setColor(null)} value="random" control={<Radio />} label="Случайный" />
-                                            <FormControlLabel onClick={() => setColor(true)} value="white" control={<Radio />} label="Белый" />
-                                            <FormControlLabel onClick={() => setColor(false)} value="black" control={<Radio />} label="Черный" />
+                                            <FormControlLabel name="white" onClick={() => setColor(true)} value="white" control={<Radio />} label="Белый" />
+                                            <FormControlLabel name='black' onClick={() => setColor(false)} value="black" control={<Radio />} label="Черный" />
+                                            <FormControlLabel name='random' onClick={() => setColor(null)} value="random" control={<Radio />} label="Случайный" />
                                         </RadioGroup>
                                 </FormControl>
                             </InputWrapper>
@@ -83,6 +84,8 @@ const InputWrapper = styled.div`
     display: flex;
     flex-direction: row;
     margin: 10px 5px;
+    align-items: center;
+    justify-content: left;
 `
 const DataWrapper = styled.div`
     display: flex;
@@ -96,6 +99,18 @@ const ModalWrapper = styled.div`
     background: rgb(43, 43, 43);
     padding: 30px;
     border-radius: 10px;
+    @media (min-width: 320px) {
+        max-width: 250px;
+    } 
+    @media (min-width: 481px) {
+        max-width: 400px;
+    } 
+    @media (min-width: 769px) {
+        max-width: 500px;
+    }
+    @media (min-width: 1025px) {
+        max-width: 700px;
+    }
 `
 const ModalTitle = styled.p`
     font-size: 36px;
@@ -104,6 +119,7 @@ const ModalTitle = styled.p`
 `
 const ModalText = styled.p`
     padding-right: 15px;
+    font-size: calc(14px + 0.4vw);
 `
 
 const Modal = styled(BaseModal)`
@@ -113,6 +129,8 @@ const Modal = styled(BaseModal)`
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 10px;
+    
 `
 
 const ButtonWrapper = styled.div`
@@ -123,14 +141,14 @@ const ButtonWrapper = styled.div`
 `
 
 const Button = styled.a`
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: #3f3d38;
     text-decoration: none;
     color: #929999;
     padding: 15px;
     cursor: pointer;
     text-align: center;
-    font-size: 26px;
+    font-size: calc(18px + 0.7vw);
 `
 
 const Wrapper = styled.div`
@@ -145,7 +163,8 @@ const Backdrop = React.forwardRef<
   HTMLDivElement,
   { open?: boolean; className: string }
 >((props, ref) => {
-  const { open, className, ...other } = props;
+    //@ts-ignore
+  const { ownerState, open, className,  ...other } = props;
   return (
     <div
       className={clsx({ 'MuiBackdrop-open': open }, className)}

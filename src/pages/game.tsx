@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import { FC, useEffect } from "react";
-import styled from "styled-components";
 import BoardComponent from "../components/BoardComponent";
+import { BoardSettings, Text, TurnBoardBtn, Wrapper } from "./localGame";
 import { store } from "../store";
 import { serverStore } from "../store/server";
 import { useNavigate, useParams } from "react-router-dom";
@@ -38,23 +38,4 @@ const GamePage: FC = observer(() => {
         </Wrapper>
     )
 })
-export const Text = styled.p`
-    font-size: 30px;
-    color: #acacac;
-`
-export const BoardSettings = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-`
-export const TurnBoardBtn = styled.a`
-    cursor: pointer;
-    margin-bottom: 100px;
-`
-export const Wrapper = styled.div`
-    display: flex;
-    justify-content: space-around;
-    margin: 20px 0px;
-`
 export default GamePage
