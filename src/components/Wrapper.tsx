@@ -20,6 +20,7 @@ const Wrapper = styled.div`
     background: rgb(29,29,29);
     background: radial-gradient(circle, rgba(29,29,29,1) 66%, rgba(38,38,38,1) 100%);
     min-height: 100vh;
+    overflow-x: hidden;
 `
 
 

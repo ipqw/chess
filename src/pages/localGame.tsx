@@ -38,8 +38,12 @@ const LocalGamePage: FC = observer(() => {
     )
 })
 export const TurnBoardImg = styled.img`
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
+    @media (min-width: 769px) {
+        width: 50px;
+        height: 50px;
+    }
 `
 export const TurnBoardBtn = styled.div`
     display: flex;
@@ -54,12 +58,13 @@ export const TurnBoardText = styled.a`
     text-align: center;
     color: #ffffff;
     padding-left: 10px;
+    font-size: calc(8px + 0.5vw);
 `
 export const GameInfo = styled.div`
     width: 200px;
     text-align: center;
     margin-bottom: 20px;
-    font-size: calc(20px + 0.5vw);
+    font-size: calc(16px + 0.7vw);
     color: #ffffff;
 `
 export const Text = styled.p`
@@ -78,7 +83,7 @@ export const Wrapper = styled.div`
     margin: 20px 0px;
     flex-direction: column;
     align-items: center;
-    @media (min-width: 769px) {
+    @media (min-width: 850px) {
         flex-direction: row;
         justify-content: space-around;
         align-items: flex-start;

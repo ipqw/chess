@@ -46,7 +46,7 @@ const MainPage: FC = observer(() => {
                         <ModalTitle>Создать игру</ModalTitle>
                         <DataWrapper>
                             <InputWrapper>
-                                <ModalText>Имя игры: </ModalText><Input value={name} onChange={(e) => {setName(e.target.value)}} />
+                                <ModalText>Имя игры: </ModalText><ModalInput value={name} onChange={(e) => {setName(e.target.value)}} />
                             </InputWrapper>
                             <InputWrapper>
                                 <ModalText style={{marginTop: 7}}>Цвет: </ModalText>
@@ -72,6 +72,12 @@ const MainPage: FC = observer(() => {
         </Wrapper>
     )
 })
+const ModalInput = styled(Input)`
+    margin-top: 15px;
+    @media (min-width: 260px) {
+        margin: 0px;
+    }
+`
 const FormButton = styled(BaseButton)`
     align-self: center;
     cursor: pointer;
@@ -82,10 +88,15 @@ const FormButton = styled(BaseButton)`
 `
 const InputWrapper = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin: 10px 5px;
     align-items: center;
-    justify-content: left;
+    justify-content: center;
+    @media (min-width: 260px) {
+        max-width: 200px;
+        flex-direction: row;
+        justify-content: left;
+    }
 `
 const DataWrapper = styled.div`
     display: flex;
@@ -99,6 +110,10 @@ const ModalWrapper = styled.div`
     background: rgb(43, 43, 43);
     padding: 30px;
     border-radius: 10px;
+    max-width: 150px;
+    @media (min-width: 260px) {
+        max-width: 200px;
+    } 
     @media (min-width: 320px) {
         max-width: 250px;
     } 
@@ -113,7 +128,7 @@ const ModalWrapper = styled.div`
     }
 `
 const ModalTitle = styled.p`
-    font-size: 36px;
+    font-size: calc(26px + 0.8vw);
     margin-bottom: 30px;
     cursor: default;
 `

@@ -47,6 +47,9 @@ const BoardComponent: FC = observer(() => {
 
 const BoardWrapper = styled.div`
     display: flex;
+    @media (min-width: 850px) {
+        margin: 10px;
+    }
 `
 
 export default BoardComponent

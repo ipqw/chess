@@ -34,14 +34,14 @@ const AccountDiv = styled.div`
 const Wrapper = styled.div`
     display: flex;  
     justify-content: space-between;
-    padding: 10px 30px;
+    padding: 10px 0 0 30px;
     box-shadow: 0px 5px 5px rgb(36, 36, 36);
 `
 const Title = styled.a`
     text-decoration: none;
     font-weight: 600;
     cursor: pointer;
-    font-size: 36px;
+    font-size: calc(24px + 0.7vw);
     font-family: 'Noto Sans', sans-serif;
 `
 export default Header
