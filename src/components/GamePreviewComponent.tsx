@@ -22,6 +22,10 @@ const Wrapper = styled.div`
     margin: 10px;
     border-radius: 10px;
     align-items: center;
+    flex-direction: column;
+    @media (min-width: 400px) {
+        flex-direction: row;
+    }
 `
 
 
