@@ -38,7 +38,7 @@ class Storage {
     returnMove = () => {
         this._moves.pop()
     }
-    _server: string = 'https://chess-server-2mn0.onrender.com/api/'
+    _server: string = 'https://chess-server-two.vercel.app/'
     get server(){
         return this._server
     }

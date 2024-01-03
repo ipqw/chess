@@ -64,6 +64,7 @@ export const GameInfo = styled.div`
     width: 200px;
     text-align: center;
     margin-bottom: 20px;
+    margin-left: 10px;
     font-size: calc(16px + 0.7vw);
     color: #ffffff;
 `
