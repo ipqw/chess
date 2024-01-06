@@ -24,15 +24,6 @@ const LocalGamePage: FC = observer(() => {
                     <TurnBoardText>Перевернуть доску</TurnBoardText>
                 </TurnBoardBtn>
                 <Text style={{display: store.win !== null ? 'block' : 'none'}}>Победа {store.win === Colors.WHITE ? 'белых' : 'черных'}</Text>
-                <Text>
-                    {/* Сверстать таблицу ходов на гридах */}
-                    {store.moves.map((move: string, index: number) => {
-                        const moveArr: string[] = move.split('-')
-                        return(
-                            `${index+1}) ${moveArr[0]}-${moveArr[1]} \n`
-                        )
-                    })}
-                </Text>
             </BoardSettings>
         </Wrapper>
     )
