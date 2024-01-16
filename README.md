@@ -6,11 +6,11 @@
 **https://chess-ipqw.vercel.app/**
 
 ## Технологии
- - React JS
- - MobX
- - Styled components
- - Vite
- - TypeScript
+ - **React JS**
+ - **MobX**
+ - **Styled components**
+ - **Vite**
+ - **TypeScript**
 
 ## Особенности
  - Пользователи могут создавать локальные и сетевые игры против других пользователей
